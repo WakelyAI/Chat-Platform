@@ -2,19 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Chat</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="chat-container">
         <div id="chat-header">
-            <h2 id="org-name">Loading...</h2>
+            <img id="org-logo" src="" alt="" style="display: none;">
+            <div>
+                <h2 id="org-name">Loading...</h2>
+                <span id="org-status">Online</span>
+            </div>
         </div>
+        
         <div id="chat-messages"></div>
+        
+        <div class="quick-replies" id="quick-replies" style="display: none;"></div>
+        
         <div id="chat-input-container">
-            <input type="text" id="chat-input" placeholder="Type a message...">
-            <button id="send-btn">Send</button>
+            <div class="input-wrapper">
+                <textarea 
+                    id="chat-input" 
+                    placeholder="Message..." 
+                    rows="1"
+                    onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }">
+                </textarea>
+                <button id="send-btn" onclick="sendMessage()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
     <script src="app.js"></script>
