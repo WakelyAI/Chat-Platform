@@ -159,3 +159,43 @@ function removeTyping(id) {
 
 // Start the app
 init();
+
+// Mobile keyboard handling
+let viewportHeight = window.innerHeight;
+let isKeyboardOpen = false;
+
+function handleViewportChange() {
+    const currentHeight = window.innerHeight;
+    const heightDifference = viewportHeight - currentHeight;
+    
+    // Keyboard is likely open if height decreased by more than 100px
+    if (heightDifference > 100) {
+        isKeyboardOpen = true;
+        document.body.classList.add('keyboard-open');
+        
+        // Scroll to bottom to show input
+        const chatMessages = document.getElementById('chat-messages');
+        setTimeout(() => {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 100);
+    } else if (isKeyboardOpen && heightDifference < 50) {
+        isKeyboardOpen = false;
+        document.body.classList.remove('keyboard-open');
+    }
+}
+
+// Listen for viewport changes
+window.visualViewport?.addEventListener('resize', handleViewportChange);
+window.addEventListener('resize', handleViewportChange);
+
+// Focus/blur handling for input
+document.getElementById('chat-input').addEventListener('focus', () => {
+    document.body.classList.add('input-focused');
+    setTimeout(() => {
+        document.getElementById('chat-input').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
+});
+
+document.getElementById('chat-input').addEventListener('blur', () => {
+    document.body.classList.remove('input-focused');
+});

@@ -449,3 +449,67 @@ body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
 }
+
+/* iOS Safari keyboard fixes */
+.keyboard-open #chat-container {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.keyboard-open #chat-messages {
+    padding-bottom: 2rem;
+}
+
+.input-focused #chat-input-container {
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+    background: var(--bg-primary);
+}
+
+/* iOS specific fixes */
+@supports (-webkit-touch-callout: none) {
+    #chat-container {
+        height: 100vh;
+        height: -webkit-fill-available;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    
+    #chat-messages {
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 1rem;
+    }
+    
+    #chat-input-container {
+        position: sticky;
+        bottom: 0;
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    .input-wrapper {
+        padding-bottom: 0.5rem;
+    }
+}
+
+/* Ensure input is always visible on small screens */
+@media (max-height: 600px) {
+    #chat-header {
+        padding: 0.5rem 1rem;
+    }
+    
+    .keyboard-open #chat-header {
+        display: none;
+    }
+    
+    .keyboard-open #chat-messages {
+        height: calc(100vh - 120px);
+    }
+}
