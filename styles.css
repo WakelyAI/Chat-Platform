@@ -242,11 +242,16 @@ body {
 /* Mobile responsive */
 @media (max-width: 768px) {
   #chat-header {
-    padding: 0.875rem 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  #chat-messages {
+    padding: 1rem 0;
   }
   
   .message {
-    padding: 0 1rem;
+    padding: 0 0.75rem;
+    max-width: 100%;
   }
   
   .message-avatar {
@@ -258,12 +263,80 @@ body {
     font-size: 0.9rem;
   }
   
-  #chat-input {
-    font-size: 16px; /* Prevents zoom on iOS */
+  #chat-input-container {
+    padding: 0.75rem;
   }
   
   .input-wrapper {
-    padding: 0 0.5rem;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  #chat-input {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 0.625rem 0.875rem;
+    min-height: 40px;
+  }
+   
+  #send-btn {
+    min-width: 40px;
+    height: 40px;
+    padding: 0.625rem;
+  }
+
+  .quick-replies {
+    padding: 0.5rem 0.75rem 0;
+    max-width: 100%;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 375px) {
+  .message {
+    gap: 0.5rem;
+  }
+  
+  .message-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+  }
+  
+  .message-content {
+    font-size: 0.875rem;
+  }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  #chat-container {
+    max-width: 100%;
+  }
+  
+  .message,
+  .input-wrapper,
+  .quick-replies {
+    max-width: 36rem;
+  }
+}
+
+/* Landscape mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  #chat-header {
+    padding: 0.5rem 1rem;
+  }
+  
+  #chat-messages {
+    padding: 0.5rem 0;
+  }
+  
+  #chat-input-container {
+    padding: 0.5rem;
+  }
+  
+  #chat-input {
+    min-height: 36px;
+    max-height: 60px;
   }
 }
 
@@ -360,4 +433,19 @@ body {
 
 .message-wrapper:hover {
   background: rgba(0, 0, 0, 0.02);
+}
+
+/* Fix for mobile browser viewport height */
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari */
+  #chat-container {
+    height: 100vh;
+    height: -webkit-fill-available;
+  }
+}
+
+/* Android Chrome fix */
+#chat-container {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
 }
