@@ -92,10 +92,49 @@ async function sendMessage() {
 // Add message to chat
 function addMessage(sender, text) {
     const messagesDiv = document.getElementById('chat-messages');
+    
+    // Create message wrapper
+    const wrapperDiv = document.createElement('div');
+    wrapperDiv.className = 'message-wrapper';
+    
+    // Create message container
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${sender}`;
-    messageDiv.textContent = text;
-    messagesDiv.appendChild(messageDiv);
+    
+    // Create avatar
+    const avatarDiv = document.createElement('div');
+    avatarDiv.className = 'message-avatar';
+    avatarDiv.textContent = sender === 'user' ? 'U' : 'T';  // U for User, T for Toastable
+    
+    // Create content container
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+    
+    // Add sender label
+    const labelDiv = document.createElement('div');
+    labelDiv.className = 'message-label';
+    labelDiv.textContent = sender === 'user' ? 'You' : organization?.name || 'Assistant';
+    
+    // Add message text
+    const textDiv = document.createElement('div');
+    textDiv.className = 'message-text';
+    textDiv.textContent = text;
+    
+    // Add timestamp
+    const timeDiv = document.createElement('div');
+    timeDiv.className = 'message-time';
+    timeDiv.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    // Assemble the message
+    contentDiv.appendChild(labelDiv);
+    contentDiv.appendChild(textDiv);
+    contentDiv.appendChild(timeDiv);
+    
+    messageDiv.appendChild(avatarDiv);
+    messageDiv.appendChild(contentDiv);
+    wrapperDiv.appendChild(messageDiv);
+    
+    messagesDiv.appendChild(wrapperDiv);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 

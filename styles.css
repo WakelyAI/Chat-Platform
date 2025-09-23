@@ -298,3 +298,66 @@ body {
 #chat-messages::-webkit-scrollbar-thumb:hover {
   opacity: 0.7;
 }
+/* === ADD THESE NEW STYLES AT THE END OF THE FILE === */
+
+/* Better message differentiation */
+.message-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.message-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.message.user {
+  flex-direction: row-reverse;
+}
+
+.message.user .message-content {
+  align-items: flex-end;
+}
+
+.message.user .message-avatar {
+  background: #4f46e5;
+  color: white;
+  margin-left: 1rem;
+  margin-right: 0;
+}
+
+.message.bot .message-avatar {
+  background: var(--primary-color);
+  color: white;
+  margin-right: 1rem;
+}
+
+/* Better header alignment */
+#chat-header {
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+#chat-header > div {
+  text-align: center;
+}
+
+#org-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* Message wrapper hover effect */
+.message-wrapper {
+  transition: background 0.2s;
+}
+
+.message-wrapper:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
