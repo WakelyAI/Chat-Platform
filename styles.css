@@ -513,3 +513,107 @@ body {
         height: calc(100vh - 120px);
     }
 }
+
+/* === MODERN CHAT ANIMATIONS & IMPROVEMENTS === */
+
+/* Send button loading state */
+#send-btn.sending {
+    position: relative;
+    color: transparent;
+}
+
+#send-btn.sending::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Disabled input state */
+#chat-input:disabled {
+    background-color: rgba(0, 0, 0, 0.02);
+    cursor: not-allowed;
+}
+
+/* Better typing indicator */
+.typing-content {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 4px;
+}
+
+.typing-content span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #9ca3af;
+    animation: typing-bounce 1.4s ease-in-out infinite;
+}
+
+.typing-content span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.typing-content span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes typing-bounce {
+    0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Smooth message appearance */
+.message-wrapper {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Prevent double-tap zoom on iOS */
+button, input, textarea {
+    touch-action: manipulation;
+}
+
+/* Better scroll performance */
+#chat-messages {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}

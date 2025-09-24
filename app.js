@@ -14,6 +14,7 @@ if (!sessionId) {
 }
 
 let organization = null;
+let isSending = false;
 
 // Initialize
 async function init() {
@@ -25,10 +26,33 @@ async function init() {
         organization = await response.json();
         document.getElementById('org-name').textContent = organization.name;
         
-        // Set up event listeners
-        document.getElementById('send-btn').addEventListener('click', sendMessage);
-        document.getElementById('chat-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
+        // Set up event listeners properly
+        const sendBtn = document.getElementById('send-btn');
+        const chatInput = document.getElementById('chat-input');
+        
+        // Remove any inline handlers from HTML
+        sendBtn.onclick = null;
+        chatInput.onkeydown = null;
+        
+        // Single click handler
+        sendBtn.addEventListener('click', handleSend);
+        
+        // Single Enter key handler
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+            }
+        });
+        
+        // Auto-resize textarea with debounce
+        let resizeTimeout;
+        chatInput.addEventListener('input', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                chatInput.style.height = 'auto';
+                chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
+            }, 10);
         });
         
         // Show welcome message
@@ -41,22 +65,37 @@ async function init() {
     }
 }
 
-// Send message
-async function sendMessage() {
+// Main send handler
+async function handleSend() {
+    if (isSending) return;
+    
     const input = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
     const message = input.value.trim();
     
     if (!message) return;
     
-    // Add user message to chat
-    addMessage('user', message);
+    // Set sending state
+    isSending = true;
+    sendBtn.disabled = true;
+    sendBtn.classList.add('sending');
+    input.disabled = true;
+    
+    // Clear input immediately
     input.value = '';
+    input.style.height = 'auto';
+    
+    // Add user message
+    addMessage('user', message);
     
     // Show typing indicator
     const typingId = showTyping();
     
     try {
-        // Send to n8n webhook
+        // Request with timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
+        
         const response = await fetch(N8N_WEBHOOK, {
             method: 'POST',
             headers: {
@@ -67,8 +106,15 @@ async function sendMessage() {
                 userId: sessionId,
                 whatsapp_number: organization?.whatsapp_number || '',
                 channel: 'web'
-            })
+            }),
+            signal: controller.signal
         });
+        
+        clearTimeout(timeoutId);
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
         
         const data = await response.json();
         
@@ -85,47 +131,67 @@ async function sendMessage() {
     } catch (error) {
         console.error('Send error:', error);
         removeTyping(typingId);
-        addMessage('bot', 'Sorry, I encountered an error. Please try again.');
+        
+        if (error.name === 'AbortError') {
+            addMessage('bot', 'The request timed out. Please try again.');
+        } else {
+            addMessage('bot', 'Sorry, I encountered an error. Please try again.');
+        }
+    } finally {
+        // Always reset state
+        isSending = false;
+        sendBtn.disabled = false;
+        sendBtn.classList.remove('sending');
+        input.disabled = false;
+        
+        // Focus on desktop only
+        if (window.innerWidth > 768) {
+            input.focus();
+        }
     }
+}
+
+// Backward compatibility
+function sendMessage() {
+    handleSend();
 }
 
 // Add message to chat
 function addMessage(sender, text) {
     const messagesDiv = document.getElementById('chat-messages');
     
-    // Create message wrapper
     const wrapperDiv = document.createElement('div');
     wrapperDiv.className = 'message-wrapper';
     
-    // Create message container
+    // Create message structure
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${sender}`;
     
-    // Create avatar
+    // Avatar
     const avatarDiv = document.createElement('div');
     avatarDiv.className = 'message-avatar';
-    avatarDiv.textContent = sender === 'user' ? 'U' : 'T';  // U for User, T for Toastable
+    avatarDiv.textContent = sender === 'user' ? 'U' : 'T';
     
-    // Create content container
+    // Content
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
     
-    // Add sender label
+    // Label
     const labelDiv = document.createElement('div');
     labelDiv.className = 'message-label';
     labelDiv.textContent = sender === 'user' ? 'You' : organization?.name || 'Assistant';
     
-    // Add message text
+    // Text
     const textDiv = document.createElement('div');
     textDiv.className = 'message-text';
     textDiv.textContent = text;
     
-    // Add timestamp
+    // Time
     const timeDiv = document.createElement('div');
     timeDiv.className = 'message-time';
     timeDiv.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     
-    // Assemble the message
+    // Assemble
     contentDiv.appendChild(labelDiv);
     contentDiv.appendChild(textDiv);
     contentDiv.appendChild(timeDiv);
@@ -135,19 +201,43 @@ function addMessage(sender, text) {
     wrapperDiv.appendChild(messageDiv);
     
     messagesDiv.appendChild(wrapperDiv);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    
+    // Smooth scroll
+    requestAnimationFrame(() => {
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
 }
 
 // Show typing indicator
 function showTyping() {
     const id = 'typing_' + Date.now();
     const messagesDiv = document.getElementById('chat-messages');
-    const typingDiv = document.createElement('div');
-    typingDiv.id = id;
-    typingDiv.className = 'message bot';
-    typingDiv.textContent = '...';
-    messagesDiv.appendChild(typingDiv);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    
+    const wrapperDiv = document.createElement('div');
+    wrapperDiv.id = id;
+    wrapperDiv.className = 'message-wrapper typing-wrapper';
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message bot typing';
+    
+    const avatarDiv = document.createElement('div');
+    avatarDiv.className = 'message-avatar';
+    avatarDiv.textContent = 'T';
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content typing-content';
+    contentDiv.innerHTML = '<span></span><span></span><span></span>';
+    
+    messageDiv.appendChild(avatarDiv);
+    messageDiv.appendChild(contentDiv);
+    wrapperDiv.appendChild(messageDiv);
+    
+    messagesDiv.appendChild(wrapperDiv);
+    
+    requestAnimationFrame(() => {
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+    
     return id;
 }
 
@@ -158,44 +248,30 @@ function removeTyping(id) {
 }
 
 // Start the app
-init();
-
-// Mobile keyboard handling
-let viewportHeight = window.innerHeight;
-let isKeyboardOpen = false;
-
-function handleViewportChange() {
-    const currentHeight = window.innerHeight;
-    const heightDifference = viewportHeight - currentHeight;
-    
-    // Keyboard is likely open if height decreased by more than 100px
-    if (heightDifference > 100) {
-        isKeyboardOpen = true;
-        document.body.classList.add('keyboard-open');
-        
-        // Scroll to bottom to show input
-        const chatMessages = document.getElementById('chat-messages');
-        setTimeout(() => {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }, 100);
-    } else if (isKeyboardOpen && heightDifference < 50) {
-        isKeyboardOpen = false;
-        document.body.classList.remove('keyboard-open');
-    }
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
 }
 
-// Listen for viewport changes
-window.visualViewport?.addEventListener('resize', handleViewportChange);
-window.addEventListener('resize', handleViewportChange);
-
-// Focus/blur handling for input
-document.getElementById('chat-input').addEventListener('focus', () => {
-    document.body.classList.add('input-focused');
-    setTimeout(() => {
-        document.getElementById('chat-input').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 300);
-});
-
-document.getElementById('chat-input').addEventListener('blur', () => {
-    document.body.classList.remove('input-focused');
-});
+// Mobile optimizations
+if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+    // Set viewport height CSS variable
+    const setVH = () => {
+        document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    };
+    setVH();
+    
+    // Update on orientation change only (not on every resize)
+    window.addEventListener('orientationchange', setVH);
+    
+    // Simple focus handler for iOS
+    const chatInput = document.getElementById('chat-input');
+    if (chatInput) {
+        chatInput.addEventListener('focus', () => {
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+            }, 100);
+        });
+    }
+}
