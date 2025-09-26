@@ -68,6 +68,20 @@ body {
   padding: 1.5rem 0;
   padding-bottom: 20px; /* Add extra padding at bottom */
   background: var(--bg-primary);
+  scroll-padding-bottom: 20px;
+}
+
+/* Professional spacing for last message */
+#chat-messages .message-wrapper:last-child {
+  margin-bottom: 15px;
+}
+
+/* Subtle spacer to prevent hiding */
+#chat-messages::after {
+  content: '';
+  display: block;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 .message-wrapper {
@@ -290,6 +304,11 @@ body {
     padding: 0.5rem 0.75rem 0;
     max-width: 100%;
   }
+
+  #chat-messages .message-wrapper:last-child {
+    margin-bottom: 25px;
+  }
+
 }
 
 /* Very small screens */
