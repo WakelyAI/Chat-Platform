@@ -66,22 +66,9 @@ body {
   flex: 1;
   overflow-y: auto;
   padding: 1.5rem 0;
-  padding-bottom: 20px; /* Add extra padding at bottom */
   background: var(--bg-primary);
-  scroll-padding-bottom: 20px;
-}
-
-/* Professional spacing for last message */
-#chat-messages .message-wrapper:last-child {
-  margin-bottom: 15px;
-}
-
-/* Subtle spacer to prevent hiding */
-#chat-messages::after {
-  content: '';
-  display: block;
-  height: 20px;
-  flex-shrink: 0;
+  /* Dynamic padding based on input height */
+  padding-bottom: calc(var(--input-height, 60px) + 20px);
 }
 
 .message-wrapper {
@@ -137,6 +124,11 @@ body {
   margin-top: 0.25rem;
 }
 
+#chat-messages .message-wrapper:last-child {
+  /* 5% of viewport height + base spacing */
+  margin-bottom: calc(5vh + 10px);
+}
+
 /* Typing indicator */
 .typing-indicator {
   display: flex;
@@ -169,6 +161,7 @@ body {
     transform: translateY(-10px);
     opacity: 1;
   }
+
 }
 
 /* Input area - modern style */
@@ -176,6 +169,8 @@ body {
   border-top: 1px solid var(--border-color);
   padding: 1rem;
   background: var(--bg-primary);
+  /* Store height for other elements to use */
+  --input-actual-height: 60px;
 }
 
 .input-wrapper {
@@ -303,10 +298,6 @@ body {
   .quick-replies {
     padding: 0.5rem 0.75rem 0;
     max-width: 100%;
-  }
-
-  #chat-messages .message-wrapper:last-child {
-    margin-bottom: 25px;
   }
 
 }
@@ -661,4 +652,26 @@ button, input, textarea {
 #chat-input {
   font-size: 16px; /* Prevents zoom on iOS */
   transform: translate3d(0,0,0); /* Force GPU acceleration */
+}
+
+/* Adjust for different screen sizes */
+@media (max-height: 600px) {
+  /* Smaller screens need more relative space */
+  #chat-messages .message-wrapper:last-child {
+    margin-bottom: calc(8vh + 10px);
+  }
+}
+
+@media (min-height: 800px) {
+  /* Larger screens need less relative space */
+  #chat-messages .message-wrapper:last-child {
+    margin-bottom: calc(3vh + 10px);
+  }
+}
+
+/* Safe area for iOS devices with home indicator */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  #chat-messages .message-wrapper:last-child {
+    margin-bottom: calc(5vh + env(safe-area-inset-bottom) + 10px);
+  }
 }

@@ -65,6 +65,29 @@ async function init() {
     }
 }
 
+// Dynamically adjust spacing based on input height
+function adjustSpacing() {
+    const inputContainer = document.getElementById('chat-input-container');
+    const chatMessages = document.getElementById('chat-messages');
+    
+    if (inputContainer && chatMessages) {
+        const inputHeight = inputContainer.offsetHeight;
+        chatMessages.style.paddingBottom = `${inputHeight + 20}px`;
+    }
+}
+
+// Run on load and resize
+window.addEventListener('load', adjustSpacing);
+window.addEventListener('resize', adjustSpacing);
+
+// Also adjust when input expands (for multiline text)
+const chatInput = document.getElementById('chat-input');
+if (chatInput) {
+    chatInput.addEventListener('input', () => {
+        setTimeout(adjustSpacing, 10);
+    });
+}
+
 // Main send handler
 async function handleSend() {
     if (isSending) return;
