@@ -256,17 +256,5 @@ if (document.readyState === 'loading') {
 
 // Better mobile handling
 if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-    // Don't auto-scroll on focus - let the browser handle it
-    const chatInput = document.getElementById('chat-input');
-    if (chatInput) {
-        chatInput.addEventListener('focus', () => {
-            // Just ensure messages are scrolled to bottom
-            const messagesDiv = document.getElementById('chat-messages');
-            if (messagesDiv) {
-                setTimeout(() => {
-                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                }, 300);
-            }
-        });
-    }
+
 }
