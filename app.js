@@ -254,24 +254,19 @@ if (document.readyState === 'loading') {
     init();
 }
 
-// Mobile optimizations
+// Better mobile handling
 if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-    // Set viewport height CSS variable
-    const setVH = () => {
-        document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-    };
-    setVH();
-    
-    // Update on orientation change only (not on every resize)
-    window.addEventListener('orientationchange', setVH);
-    
-    // Simple focus handler for iOS
+    // Don't auto-scroll on focus - let the browser handle it
     const chatInput = document.getElementById('chat-input');
     if (chatInput) {
         chatInput.addEventListener('focus', () => {
-            setTimeout(() => {
-                window.scrollTo(0, 0);
-            }, 100);
+            // Just ensure messages are scrolled to bottom
+            const messagesDiv = document.getElementById('chat-messages');
+            if (messagesDiv) {
+                setTimeout(() => {
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                }, 300);
+            }
         });
     }
 }
