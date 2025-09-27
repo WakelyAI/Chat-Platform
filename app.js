@@ -207,8 +207,24 @@ function addMessage(sender, text) {
     // Text
     const textDiv = document.createElement('div');
     textDiv.className = 'message-text';
-    textDiv.textContent = text;
+    function linkifyText(text) {
+        // First escape HTML to prevent injection
+        const escaped = text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     
+        // Then convert URLs to clickable links
+        return escaped.replace(
+            /(https?:\/\/[^\s]+)/g,
+            '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">$1</a>'
+        );
+    }
+
+    // Use innerHTML for linked text
+    textDiv.innerHTML = linkifyText(text);    
     // Time
     const timeDiv = document.createElement('div');
     timeDiv.className = 'message-time';
