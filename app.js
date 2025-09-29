@@ -24,8 +24,27 @@ async function init() {
         if (!response.ok) throw new Error('Organization not found');
         
         organization = await response.json();
-        document.getElementById('org-name').textContent = organization.name;
-        
+        if (organization.brand_assets) {
+            const assets = organization.brand_assets;
+            
+            // Apply logo if exists
+            if (assets.logo_url) {
+                const logoContainer = document.getElementById('org-logo');
+                if (logoContainer) {
+                    logoContainer.src = assets.logo_url;
+                    logoContainer.style.display = 'block';
+                }
+            }
+            
+            // Apply colors if exist
+            if (assets.primary_color) {
+                document.documentElement.style.setProperty('--primary-color', assets.primary_color);
+            }
+            if (assets.bg_color) {
+                document.documentElement.style.setProperty('--bg-secondary', assets.bg_color);
+            }
+        }        
+
         // Set up event listeners properly
         const sendBtn = document.getElementById('send-btn');
         const chatInput = document.getElementById('chat-input');
