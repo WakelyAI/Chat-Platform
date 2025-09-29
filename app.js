@@ -24,6 +24,7 @@ async function init() {
         if (!response.ok) throw new Error('Organization not found');
         
         organization = await response.json();
+        document.getElementById('org-name').textContent = organization.name;
         if (organization.brand_assets) {
             const assets = organization.brand_assets;
             
