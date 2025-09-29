@@ -28,14 +28,20 @@ async function init() {
             const assets = organization.brand_assets;
             
             // Apply logo if exists
-            if (assets.logo_url) {
-                const logoContainer = document.getElementById('org-logo');
-                if (logoContainer) {
-                    logoContainer.src = assets.logo_url;
-                    logoContainer.style.display = 'block';
-                }
-            }
+            const logoContainer = document.getElementById('org-logo');
+            const nameContainer = document.getElementById('org-name');
             
+            if (assets.logo_url && logoContainer) {
+                logoContainer.src = assets.logo_url;
+                logoContainer.style.display = 'block';
+                logoContainer.onerror = function() {
+                    // If logo fails to load, hide it and show name
+                    this.style.display = 'none';
+                    if (nameContainer) nameContainer.style.display = 'block';
+                };
+                // Hide name when logo is successfully shown
+                if (nameContainer) nameContainer.style.display = 'none';
+            }            
             // Apply colors if exist
             if (assets.primary_color) {
                 document.documentElement.style.setProperty('--primary-color', assets.primary_color);
