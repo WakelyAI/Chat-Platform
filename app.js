@@ -44,11 +44,17 @@ async function init() {
                 if (nameContainer) nameContainer.style.display = 'none';
             }            
             // Apply colors if exist
-            if (assets.primary_color) {
-                document.documentElement.style.setProperty('--primary-color', assets.primary_color);
+            if (assets.header_color) {
+                // Header and footer bars
+                document.documentElement.style.setProperty('--bg-secondary', assets.header_color);
             }
             if (assets.bg_color) {
-                document.documentElement.style.setProperty('--bg-secondary', assets.bg_color);
+                // Main chat background
+                document.documentElement.style.setProperty('--bg-primary', assets.bg_color);
+            }
+            if (assets.button_color) {
+                // Send button and avatar squares
+                document.documentElement.style.setProperty('--primary-color', assets.button_color);
             }
         }        
 
