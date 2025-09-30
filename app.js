@@ -45,8 +45,13 @@ async function init() {
             }            
             // Apply colors if exist
             if (assets.header_color) {
-                // Header and footer bars
-                document.documentElement.style.setProperty('--bg-secondary', assets.header_color);
+                // For header and footer, we need to override bg-primary in those specific elements
+                const style = document.createElement('style');
+                style.innerHTML = `
+                    #chat-header { background: ${assets.header_color} !important; }
+                    #chat-input-container { background: ${assets.header_color} !important; }
+                `;
+                document.head.appendChild(style);
             }
             if (assets.bg_color) {
                 // Main chat background
