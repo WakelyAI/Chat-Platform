@@ -217,6 +217,8 @@ body {
 #chat-input {
   flex: 1;
   padding: 0.75rem 1rem;
+  padding-left: 1.25rem;  /* Add more left padding */
+  padding-right: 1.25rem;  /* Balance right padding */
   border: 1px solid var(--border-color);
   border-radius: 8px;
   outline: none;
@@ -310,7 +312,7 @@ body {
   }
   
   #chat-input-container {
-    padding: 0.75rem;
+    padding: 0.5rem 0.75rem;  /* Better container spacing */
   }
   
   .input-wrapper {
@@ -321,6 +323,8 @@ body {
   #chat-input {
     font-size: 16px; /* Prevents zoom on iOS */
     padding: 0.625rem 0.875rem;
+    padding-left: 1.25rem;  /* Add more left padding */
+    padding-right: 1.25rem;  /* Balance right padding */
     min-height: 40px;
   }
    
