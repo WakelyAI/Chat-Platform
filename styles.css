@@ -38,27 +38,49 @@ body {
   background: var(--bg-primary);
   border-bottom: 1px solid var(--border-color);
   padding: 1rem 1.5rem;
+  min-height: 80px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
 }
 
 #org-logo {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  object-fit: cover;
+  max-height: 60px;
+  width: auto;
+  max-width: 200px;
+  height: auto;
+  object-fit: contain;
+  display: none; /* Hidden by default, shown via JS when logo exists */
 }
 
 #org-name {
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
 }
 
 #org-status {
   font-size: 0.75rem;
   color: var(--text-secondary);
+}
+
+@media (max-width: 480px) {
+  #org-logo {
+    max-height: 40px;
+    max-width: 150px;
+  }
+  
+  #org-name {
+    font-size: 1.125rem;
+  }
+  
+  #chat-header {
+    padding: 0.5rem 1rem;
+    min-height: 60px;
+  }
 }
 
 /* Messages area - like Claude/ChatGPT */
@@ -248,6 +270,8 @@ body {
   background: var(--bg-secondary);
   border-color: var(--primary-color);
 }
+
+
 
 /* Mobile responsive */
 @media (max-width: 768px) {
