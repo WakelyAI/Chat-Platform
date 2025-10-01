@@ -228,6 +228,8 @@ body {
   max-height: 120px;
   line-height: 1.5;
   transition: border-color 0.2s;
+  text-align: start;  /* Uses left for LTR, right for RTL automatically */
+
 }
 
 #chat-input:focus {
