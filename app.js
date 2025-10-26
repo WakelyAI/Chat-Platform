@@ -403,8 +403,11 @@ function renderOrderItems(orderState) {
 
 // Sheet control functions
 function openOrderSheet() {
-    document.getElementById('order-sheet').classList.add('active');
-    document.getElementById('sheet-overlay').classList.add('active');
+    const sheet = document.getElementById('order-sheet');
+    const overlay = document.getElementById('sheet-overlay');
+    sheet.style.transform = '';  // Clear any inline transform
+    sheet.classList.add('active');
+    overlay.classList.add('active');
 }
 
 function closeOrderSheet() {
@@ -435,6 +438,7 @@ function handleSheetDrag(event) {
         const deltaY = currentY - touchStartY;
         
         if (deltaY > 100) {
+            sheet.style.transform = '';  // Reset transform
             closeOrderSheet();
         } else {
             sheet.style.transform = 'translateY(0)';
