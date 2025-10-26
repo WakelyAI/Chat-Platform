@@ -15,6 +15,7 @@ if (!sessionId) {
 
 let organization = null;
 let isSending = false;
+let currentOrderState = null;
 
 // Initialize
 async function init() {
@@ -177,6 +178,11 @@ async function handleSend() {
         }
         
         const data = await response.json();
+        console.log('Full response from n8n:', data);
+        if (data.orderState) {
+            currentOrderState = data.orderState;
+            console.log('Order state updated:', currentOrderState);
+        }
         
         // Remove typing indicator
         removeTyping(typingId);
