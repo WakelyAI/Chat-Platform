@@ -389,10 +389,31 @@ function renderOrderItems(orderState) {
     orderState.items.forEach(item => {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'order-item';
+    
+        // Build modifiers text if they exist
+        let modifiersHtml = '';
+        if (item.modifiers && item.modifiers.length > 0) {
+            modifiersHtml = `<div class="item-modifiers">`;
+            item.modifiers.forEach(mod => {
+                modifiersHtml += `<span class="modifier">• ${mod.name}</span>`;
+            });
+            modifiersHtml += `</div>`;
+        }
+    
+        // Add notes if they exist
+        let notesHtml = '';
+        if (item.notes) {
+            notesHtml = `<div class="item-notes">Note: ${item.notes}</div>`;
+        }
+    
         itemDiv.innerHTML = `
-            <span class="order-item-qty">${item.quantity}x</span>
-            <span class="order-item-name">${item.name}</span>
-            <span class="order-item-price">${item.price} SAR</span>
+            <div class="item-main">
+                <span class="order-item-qty">${item.quantity}x</span>
+                <span class="order-item-name">${item.name}</span>
+                <span class="order-item-price">${item.price} SAR</span>
+            </div>
+            ${modifiersHtml}
+            ${notesHtml}
         `;
         itemsContainer.appendChild(itemDiv);
         total += (item.price * item.quantity);

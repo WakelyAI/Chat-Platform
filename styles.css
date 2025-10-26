@@ -888,3 +888,39 @@ button, input, textarea {
         display: none !important;
     }
 }
+
+
+
+.order-item {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.item-main {
+    display: flex;
+    width: 100%;
+}
+
+.item-modifiers {
+    margin-top: 8px;
+    padding-left: 38px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.modifier {
+    font-size: 14px;
+    color: #666;
+    display: block;
+}
+
+.item-notes {
+    margin-top: 8px;
+    padding-left: 38px;
+    font-size: 14px;
+    color: #666;
+    font-style: italic;
+}
