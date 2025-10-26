@@ -413,7 +413,37 @@ function closeOrderSheet() {
 }
 
 // Touch handling for drag-to-close
+// Touch handling for swipe-to-close
+let touchStartY = 0;
+let currentY = 0;
+
 function handleSheetDrag(event) {
-    // Basic drag handling - can be enhanced later
-    console.log('Drag initiated');
+    const sheet = document.getElementById('order-sheet');
+    const touch = event.touches[0];
+    touchStartY = touch.clientY;
+    
+    function onTouchMove(e) {
+        currentY = e.touches[0].clientY;
+        const deltaY = currentY - touchStartY;
+        
+        if (deltaY > 0) {
+            sheet.style.transform = `translateY(${deltaY}px)`;
+        }
+    }
+    
+    function onTouchEnd() {
+        const deltaY = currentY - touchStartY;
+        
+        if (deltaY > 100) {
+            closeOrderSheet();
+        } else {
+            sheet.style.transform = 'translateY(0)';
+        }
+        
+        document.removeEventListener('touchmove', onTouchMove);
+        document.removeEventListener('touchend', onTouchEnd);
+    }
+    
+    document.addEventListener('touchmove', onTouchMove);
+    document.addEventListener('touchend', onTouchEnd);
 }
