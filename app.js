@@ -182,6 +182,7 @@ async function handleSend() {
         if (data.orderState) {
             currentOrderState = data.orderState;
             console.log('Order state updated:', currentOrderState);
+            updateOrderPanel(currentOrderState);
         }
         
         // Remove typing indicator
