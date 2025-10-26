@@ -340,4 +340,79 @@ if (document.readyState === 'loading') {
 if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
 
 }
-// Deployment timestamp: Tue Sep 30 15:35:36 UTC 2025
+// Order Panel Management
+function updateOrderPanel(orderState) {
+    if (!orderState || !orderState.items || orderState.items.length === 0) {
+        hideOrderIndicators();
+        return;
+    }
+    
+    // Update mobile button badge
+    const itemCount = orderState.items.reduce((sum, item) => sum + item.quantity, 0);
+    showOrderIndicators(itemCount);
+    
+    // Update panel content
+    renderOrderItems(orderState);
+}
+
+function showOrderIndicators(count) {
+    const btn = document.getElementById('mobile-order-btn');
+    const badge = document.getElementById('order-badge');
+    
+    if (btn && badge) {
+        btn.classList.remove('hidden');
+        badge.textContent = count;
+    }
+}
+
+function hideOrderIndicators() {
+    const btn = document.getElementById('mobile-order-btn');
+    if (btn) {
+        btn.classList.add('hidden');
+    }
+    closeOrderSheet();
+}
+
+function renderOrderItems(orderState) {
+    const itemsContainer = document.getElementById('order-items');
+    const totalContainer = document.getElementById('order-total');
+    
+    if (!itemsContainer || !totalContainer) return;
+    
+    // Clear existing
+    itemsContainer.innerHTML = '';
+    
+    let total = 0;
+    
+    // Add each item
+    orderState.items.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'order-item';
+        itemDiv.innerHTML = `
+            <span class="order-item-qty">${item.quantity}x</span>
+            <span class="order-item-name">${item.name}</span>
+            <span class="order-item-price">${item.price} SAR</span>
+        `;
+        itemsContainer.appendChild(itemDiv);
+        total += (item.price * item.quantity);
+    });
+    
+    totalContainer.innerHTML = `Total: ${total} SAR`;
+}
+
+// Sheet control functions
+function openOrderSheet() {
+    document.getElementById('order-sheet').classList.add('active');
+    document.getElementById('sheet-overlay').classList.add('active');
+}
+
+function closeOrderSheet() {
+    document.getElementById('order-sheet').classList.remove('active');
+    document.getElementById('sheet-overlay').classList.remove('active');
+}
+
+// Touch handling for drag-to-close
+function handleSheetDrag(event) {
+    // Basic drag handling - can be enhanced later
+    console.log('Drag initiated');
+}
