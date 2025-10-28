@@ -472,3 +472,134 @@ function handleSheetDrag(event) {
     document.addEventListener('touchmove', onTouchMove);
     document.addEventListener('touchend', onTouchEnd);
 }
+
+// Menu Management
+let menuData = [];
+let currentCategory = 'all';
+
+async function loadMenu() {
+    try {
+        const response = await fetch(`https://api.wakely.ai/api/v1/menu/${orgSlug}`);
+        if (!response.ok) return;
+        
+        menuData = await response.json();
+        
+        // Extract unique categories
+        const categories = [...new Set(menuData.map(item => item.category))].filter(Boolean);
+        
+        // Build category tabs
+        const categoryHtml = `
+            <button class="category-tab active" data-category="all" onclick="filterCategory('all')">All</button>
+            ${categories.map(cat => 
+                `<button class="category-tab" data-category="${cat}" onclick="filterCategory('${cat}')">${cat}</button>`
+            ).join('')}
+        `;
+        document.getElementById('menu-categories').innerHTML = categoryHtml;
+        
+        // Display all items initially
+        displayMenuItems(menuData);
+    } catch (error) {
+        console.error('Failed to load menu:', error);
+    }
+}
+
+function displayMenuItems(items) {
+    const container = document.getElementById('menu-items');
+    
+    if (!items.length) {
+        container.innerHTML = '<div class="menu-loading">No items found</div>';
+        return;
+    }
+    
+    container.innerHTML = items.map(item => `
+        <div class="menu-item" onclick="askAboutItem('${item.name}')">
+            <div class="menu-item-image">
+                ${item.image ? `<img src="${item.image}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;">` : getItemEmoji(item.category)}
+            </div>
+            <div class="menu-item-details">
+                <div class="menu-item-name">${item.name}</div>
+                <div class="menu-item-description">${item.description || item.name_ar || ''}</div>
+                <div class="menu-item-price">${item.price} SAR</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function filterCategory(category) {
+    currentCategory = category;
+    
+    // Update active tab
+    document.querySelectorAll('.category-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.category === category);
+    });
+    
+    // Filter items
+    const filtered = category === 'all' 
+        ? menuData 
+        : menuData.filter(item => item.category === category);
+    
+    displayMenuItems(filtered);
+}
+
+function searchMenu() {
+    const query = document.getElementById('menu-search').value.toLowerCase();
+    
+    const filtered = menuData.filter(item => 
+        item.name.toLowerCase().includes(query) ||
+        (item.name_ar && item.name_ar.includes(query)) ||
+        (item.description && item.description.toLowerCase().includes(query))
+    );
+    
+    displayMenuItems(filtered);
+}
+
+function getItemEmoji(category) {
+    const emojis = {
+        'Hot Drinks': '☕',
+        'Cold Drinks': '🥤',
+        'Sandwiches': '🥪',
+        'Breakfast': '🍳',
+        'Desserts': '🍰',
+        'Salads': '🥗'
+    };
+    return `<span>${emojis[category] || '🍽️'}</span>`;
+}
+
+function toggleMenu() {
+    const panel = document.getElementById('menu-panel');
+    const overlay = document.getElementById('menu-overlay');
+    
+    panel.classList.toggle('active');
+    overlay.classList.toggle('active');
+    
+    // Load menu if not loaded
+    if (panel.classList.contains('active') && menuData.length === 0) {
+        loadMenu();
+    }
+}
+
+function closeMenu() {
+    document.getElementById('menu-panel').classList.remove('active');
+    document.getElementById('menu-overlay').classList.remove('active');
+}
+
+function askAboutItem(itemName) {
+    closeMenu();
+    const input = document.getElementById('chat-input');
+    input.value = `Tell me about ${itemName}`;
+    input.focus();
+}
+
+// Show menu button when order starts
+function showMenuButton() {
+    document.getElementById('menu-btn').classList.remove('hidden');
+}
+
+// Update the existing updateOrderPanel function
+const originalUpdateOrderPanel = updateOrderPanel;
+updateOrderPanel = function(orderState) {
+    originalUpdateOrderPanel(orderState);
+    if (orderState && orderState.items && orderState.items.length > 0) {
+        showMenuButton();
+    }
+};
