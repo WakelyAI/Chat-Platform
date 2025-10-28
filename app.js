@@ -479,10 +479,14 @@ let currentCategory = 'all';
 
 async function loadMenu() {
     try {
-        const response = await fetch(`https://api.wakely.ai/api/v1/menu/${orgSlug}`);
+        // Change this line - add 'public' to the path
+        const response = await fetch(`https://api.wakely.ai/api/public/menu/${orgSlug}`);
+        
         if (!response.ok) return;
         
-        menuData = await response.json();
+        // IMPORTANT: The response structure is different
+        const data = await response.json();
+        menuData = data.menu;  // Extract menu from response object
         
         // Extract unique categories
         const categories = [...new Set(menuData.map(item => item.category))].filter(Boolean);
