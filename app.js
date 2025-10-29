@@ -183,6 +183,8 @@ async function handleSend() {
             currentOrderState = data.orderState;
             console.log('Order state updated:', currentOrderState);
             updateOrderPanel(currentOrderState);
+
+            showMenuButton();
         }
         
         // Remove typing indicator
@@ -603,7 +605,8 @@ function showMenuButton() {
 const originalUpdateOrderPanel = updateOrderPanel;
 updateOrderPanel = function(orderState) {
     originalUpdateOrderPanel(orderState);
-    if (orderState && orderState.items && orderState.items.length > 0) {
+    // FIXED: Show menu button when order exists (even with empty items)
+    if (orderState) {
         showMenuButton();
     }
 };
