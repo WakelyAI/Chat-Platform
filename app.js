@@ -5,7 +5,7 @@ const N8N_WEBHOOK = 'https://n8n.wakely.ai/webhook/web-chat';
 // Extract org slug from URL
 const pathParts = window.location.pathname.split('/');
 const orgSlug = pathParts[1];
-
+let organizationId = null;
 // Session management
 let sessionId = localStorage.getItem('chat_session');
 if (!sessionId) {
@@ -25,7 +25,7 @@ async function init() {
         if (!response.ok) throw new Error('Organization not found');
         
         organization = await response.json();
-        let organizationId = organization.organization_id;
+        organizationId = organization.organization_id;
         document.getElementById('org-name').textContent = organization.name;
         if (organization.brand_assets) {
             const assets = organization.brand_assets;
