@@ -25,6 +25,7 @@ async function init() {
         if (!response.ok) throw new Error('Organization not found');
         
         organization = await response.json();
+        let organizationId = organization.organization_id;
         document.getElementById('org-name').textContent = organization.name;
         if (organization.brand_assets) {
             const assets = organization.brand_assets;
@@ -482,7 +483,7 @@ let currentCategory = 'all';
 async function loadMenu() {
     try {
         // Change this line - add 'public' to the path
-        const response = await fetch(`https://api.wakely.ai/api/public/menu/${orgSlug}`);
+        const response = await fetch(`https://api.wakely.ai/api/public/menu/${organizationId}`);
         
         if (!response.ok) return;
         
