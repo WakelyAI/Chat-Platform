@@ -1248,13 +1248,84 @@ button, input, textarea {
 }
 
 /* Mobile Responsive */
+
+/* === Final Clean Layout - Buttons Aligned with Header === */
+
+/* Language Toggle - Inside header, right side */
+.language-toggle {
+  position: absolute;
+  right: 110px;  /* Space for menu button */
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.lang-btn {
+  padding: 5px 12px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lang-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.lang-btn.active {
+  background: white;
+  color: var(--primary-color);
+}
+
+/* Menu Button - Inside header, far right */
+.menu-btn {
+  position: absolute !important;
+  right: 20px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary-color);
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.menu-btn:hover {
+  background: white;
+}
+
+/* Ensure header is relatively positioned */
+#chat-header {
+  position: relative;
+}
+
+/* Menu Panel - Always Left */
+.menu-panel {
+  left: 0 !important;
+}
+
+/* Mobile Adjustments */
 @media (max-width: 768px) {
   .language-toggle {
-    right: 60px;
+    right: 85px;
   }
   
   .lang-btn {
     padding: 4px 8px;
     font-size: 11px;
+  }
+  
+  .menu-btn {
+    padding: 6px 10px !important;
+    font-size: 12px !important;
   }
 }
