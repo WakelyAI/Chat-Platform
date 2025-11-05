@@ -54,7 +54,7 @@ function initLanguageToggle() {
  * Update all UI text after language change
  */
 function updateUILanguage() {
-  // ONLY update text - don't query any elements that might trigger events
+  // Update only visible text elements, DON'T touch menu panel state
   
   // Message input placeholder
   const chatInput = document.getElementById('chat-input');
@@ -62,9 +62,38 @@ function updateUILanguage() {
     chatInput.placeholder = i18n.t('messagePlaceholder');
   }
   
-  // DON'T touch menu button - it will update when menu opens
-  // This prevents any accidental event triggering
-}
+  // Menu button text (if visible)
+  const menuBtn = document.querySelector('.menu-btn span');
+  if (menuBtn) {
+    menuBtn.textContent = i18n.t('menu');
+  }
+  
+  // Only update menu content if menu is actually open
+  const menuPanel = document.getElementById('menu-panel');
+  if (menuPanel && menuPanel.classList.contains('active')) {
+    // Update menu header
+    const menuHeader = document.querySelector('.menu-header h3');
+    if (menuHeader) {
+      menuHeader.textContent = i18n.t('ourMenu');
+    }
+    
+    // Update search placeholder
+    const searchInput = document.getElementById('menu-search');
+    if (searchInput) {
+      searchInput.placeholder = i18n.t('search');
+    }
+    
+    // Re-render menu items with new language
+    if (window.menuData && window.menuData.length > 0) {
+      const filtered = window.currentCategory === 'all' 
+        ? window.menuData 
+        : window.menuData.filter(item => item.category === window.currentCategory);
+      
+      if (typeof displayMenuItems === 'function') {
+        displayMenuItems(filtered);
+      }
+    }
+  }
   
   // Only update order content if order exists
   if (window.currentOrderState && window.currentOrderState.items) {
@@ -83,21 +112,9 @@ function updateUILanguage() {
 
 // Initialize when DOM ready
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    initLanguageToggle();
-    initMenuButton();
-  });
+  document.addEventListener('DOMContentLoaded', initLanguageToggle);
 } else {
   initLanguageToggle();
-  initMenuButton();
-}
-
-// Initialize menu button click handler
-function initMenuButton() {
-  const menuBtn = document.getElementById('menu-btn');
-  if (menuBtn) {
-    menuBtn.addEventListener('click', toggleMenu);
-  }
 }
 
 // ============================================
