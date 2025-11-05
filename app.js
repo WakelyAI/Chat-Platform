@@ -729,7 +729,6 @@ function getItemEmoji(category) {
 }
 
 function toggleMenu() {
-    if (isChangingLanguage) { isChangingLanguage = false; return; }
     const panel = document.getElementById('menu-panel');
     const overlay = document.getElementById('menu-overlay');
     
