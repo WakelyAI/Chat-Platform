@@ -1,3 +1,91 @@
+// ============================================
+// LANGUAGE MANAGEMENT
+// ============================================
+
+/**
+ * Initialize language toggle
+ */
+function initLanguageToggle() {
+  const langButtons = document.querySelectorAll('.lang-btn');
+  
+  // Set initial active state
+  const currentLang = i18n.getCurrentLanguage();
+  langButtons.forEach(btn => {
+    if (btn.dataset.lang === currentLang) {
+      btn.classList.add('active');
+    }
+  });
+  
+  // Add click handlers
+  langButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const newLang = btn.dataset.lang;
+      
+      // Don't do anything if already active
+      if (btn.classList.contains('active')) return;
+      
+      // Switch language
+      i18n.setLanguage(newLang);
+      
+      // Update button states
+      langButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      // Update UI text
+      updateUILanguage();
+    });
+  });
+}
+
+/**
+ * Update all UI text after language change
+ */
+function updateUILanguage() {
+  // Menu button
+  const menuBtn = document.querySelector('.menu-btn span');
+  if (menuBtn) menuBtn.textContent = i18n.t('menu');
+  
+  // Menu header
+  const menuHeader = document.querySelector('.menu-header h3');
+  if (menuHeader) menuHeader.textContent = i18n.t('ourMenu');
+  
+  // Search placeholder
+  const searchInput = document.getElementById('menu-search');
+  if (searchInput) searchInput.placeholder = i18n.t('search');
+  
+  // Message input placeholder
+  const chatInput = document.getElementById('chat-input');
+  if (chatInput) chatInput.placeholder = i18n.t('messagePlaceholder');
+  
+  // Order sheet header
+  const orderHeader = document.querySelector('.sheet-header h3');
+  if (orderHeader) orderHeader.textContent = i18n.t('yourOrder');
+  
+  // Re-render menu items if loaded
+  if (window.window.menuData && window.window.menuData.length > 0) {
+    const filtered = window.window.currentCategory === 'all' 
+      ? window.window.menuData 
+      : window.window.menuData.filter(item => item.category === window.window.currentCategory);
+    displayMenuItems(filtered);
+  }
+  
+  // Re-render order items if exist
+  if (window.window.currentOrderState) {
+    renderOrderItems(window.window.currentOrderState);
+  }
+}
+
+// Initialize when DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initLanguageToggle);
+} else {
+  initLanguageToggle();
+}
+
+// ============================================
+// ORIGINAL APP.JS CODE STARTS BELOW
+// ============================================
+
 // Configuration
 const API_BASE = 'https://api.wakely.ai/api';
 const N8N_WEBHOOK = 'https://n8n.wakely.ai/webhook/web-chat';
@@ -15,7 +103,8 @@ if (!sessionId) {
 
 let organization = null;
 let isSending = false;
-let currentOrderState = null;
+window.window.currentOrderState = null;
+
 
 // Initialize
 async function init() {
@@ -95,12 +184,12 @@ async function init() {
         });
         
         // Show welcome message
-        addMessage('bot', `Welcome to ${organization.name}! How can I help you today?`);
+        addMessage('bot', i18n.t('welcome', organization.name));
         
     } catch (error) {
         console.error('Init error:', error);
-        document.getElementById('org-name').textContent = 'Chat Service';
-        addMessage('bot', 'Welcome! How can I help you?');
+        document.getElementById('org-name').textContent = i18n.t('chatService');
+        addMessage('bot', i18n.t('welcomeFallback'));
     }
 }
 
@@ -181,9 +270,9 @@ async function handleSend() {
         const data = await response.json();
         console.log('Full response from n8n:', data);
         if (data.orderState) {
-            currentOrderState = data.orderState;
-            console.log('Order state updated:', currentOrderState);
-            updateOrderPanel(currentOrderState);
+            window.currentOrderState = data.orderState;
+            console.log('Order state updated:', window.currentOrderState);
+            updateOrderPanel(window.currentOrderState);
 
             showMenuButton();
         }
@@ -203,9 +292,9 @@ async function handleSend() {
         removeTyping(typingId);
         
         if (error.name === 'AbortError') {
-            addMessage('bot', 'The request timed out. Please try again.');
+            addMessage('bot', i18n.t('errorTimeout'));
         } else {
-            addMessage('bot', 'Sorry, I encountered an error. Please try again.');
+            addMessage('bot', i18n.t('errorGeneric'));
         }
     } finally {
         // Always reset state
@@ -413,7 +502,7 @@ function renderOrderItems(orderState) {
             <div class="item-main">
                 <span class="order-item-qty">${item.quantity}x</span>
                 <span class="order-item-name">${item.name}</span>
-                <span class="order-item-price">${item.price} SAR</span>
+                <span class="order-item-price">${i18n.formatPrice(item.price)}</span>
             </div>
             ${modifiersHtml}
             ${notesHtml}
@@ -422,7 +511,8 @@ function renderOrderItems(orderState) {
         total += (item.price * item.quantity);
     });
     
-    totalContainer.innerHTML = `Total: ${total} SAR`;
+    totalContainer.innerHTML = `${i18n.t('total')}: ${i18n.formatPrice(total)}`;    
+
 }
 
 // Sheet control functions
@@ -477,8 +567,10 @@ function handleSheetDrag(event) {
 }
 
 // Menu Management
-let menuData = [];
-let currentCategory = 'all';
+// Make these globally accessible for language switching
+window.menuData = [];
+window.currentCategory = 'all';
+
 
 async function loadMenu() {
     try {
@@ -489,10 +581,10 @@ async function loadMenu() {
         
         // IMPORTANT: The response structure is different
         const data = await response.json();
-        menuData = data.menu;  // Extract menu from response object
+        window.menuData = data.menu;  // Extract menu from response object
         
         // Extract unique categories
-        const categories = [...new Set(menuData.map(item => item.category))].filter(Boolean);
+        const categories = [...new Set(window.menuData.map(item => item.category))].filter(Boolean);
         
         // Build category tabs
         const categoryHtml = `
@@ -504,7 +596,7 @@ async function loadMenu() {
         document.getElementById('menu-categories').innerHTML = categoryHtml;
         
         // Display all items initially
-        displayMenuItems(menuData);
+        displayMenuItems(window.menuData);
     } catch (error) {
         console.error('Failed to load menu:', error);
     }
@@ -514,26 +606,32 @@ function displayMenuItems(items) {
     const container = document.getElementById('menu-items');
     
     if (!items.length) {
-        container.innerHTML = '<div class="menu-loading">No items found</div>';
+        container.innerHTML = `<div class="menu-loading">${i18n.t('noItems')}</div>`;
         return;
     }
     
-    container.innerHTML = items.map(item => `
-        <div class="menu-item" onclick="askAboutItem('${item.name}')">
-            <div class="menu-item-image">
-                ${item.image ? `<img src="${item.image}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;">` : getItemEmoji(item.category)}
+    container.innerHTML = items.map(item => {
+        // Use i18n helper methods
+        const itemName = i18n.getItemName(item);
+        const itemDesc = i18n.getItemDescription(item);
+        
+        return `
+            <div class="menu-item" onclick="askAboutItem('${item.name}')">
+                <div class="menu-item-image">
+                    ${item.image ? `<img src="${item.image}" alt="${itemName}" style="width:100%;height:100%;object-fit:cover;">` : getItemEmoji(item.category)}
+                </div>
+                <div class="menu-item-details">
+                    <div class="menu-item-name">${itemName}</div>
+                    <div class="menu-item-description">${itemDesc}</div>
+                    <div class="menu-item-price">${i18n.formatPrice(item.price)}</div>
+                </div>
             </div>
-            <div class="menu-item-details">
-                <div class="menu-item-name">${item.name}</div>
-                <div class="menu-item-description">${item.description || item.name_ar || ''}</div>
-                <div class="menu-item-price">${item.price} SAR</div>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 function filterCategory(category) {
-    currentCategory = category;
+    window.currentCategory = category;
     
     // Update active tab
     document.querySelectorAll('.category-tab').forEach(tab => {
@@ -542,8 +640,8 @@ function filterCategory(category) {
     
     // Filter items
     const filtered = category === 'all' 
-        ? menuData 
-        : menuData.filter(item => item.category === category);
+        ? window.menuData 
+        : window.menuData.filter(item => item.category === category);
     
     displayMenuItems(filtered);
 }
@@ -551,7 +649,7 @@ function filterCategory(category) {
 function searchMenu() {
     const query = document.getElementById('menu-search').value.toLowerCase();
     
-    const filtered = menuData.filter(item => 
+    const filtered = window.menuData.filter(item => 
         item.name.toLowerCase().includes(query) ||
         (item.name_ar && item.name_ar.includes(query)) ||
         (item.description && item.description.toLowerCase().includes(query))
@@ -580,7 +678,7 @@ function toggleMenu() {
     overlay.classList.toggle('active');
     
     // Load menu if not loaded
-    if (panel.classList.contains('active') && menuData.length === 0) {
+    if (panel.classList.contains('active') && window.menuData.length === 0) {
         loadMenu();
     }
 }
