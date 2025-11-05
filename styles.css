@@ -1372,16 +1372,17 @@ button, input, textarea {
     right: 15px;
     padding: 6px 12px;
     font-size: 13px;
-  }
+
+/* Minimal production fixes - Nov 5 2024 */
+.menu-btn {
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-/* Menu panel always on left - never moves */
 .menu-panel {
   left: 0 !important;
-  right: auto !important;
 }
 
-// [dir='rtl'] .menu-panel {
-//   left: 0 !important;
-//   right: auto !important;
-// }
+#chat-header {
+  visibility: hidden; /* Prevents loading flash */
+}
