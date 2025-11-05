@@ -739,3 +739,15 @@ function showMenuButton() {
 }
 
 // Update the existing updateOrderPanel function
+
+// Setup menu button click handler (replacing inline onclick)
+document.addEventListener('DOMContentLoaded', function() {
+    const menuBtn = document.getElementById('menu-btn');
+    if (menuBtn) {
+        menuBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleMenu();
+        });
+    }
+});
