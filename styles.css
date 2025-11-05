@@ -1386,8 +1386,3 @@ button, input, textarea {
 //   right: auto !important;
 // }
 
-/* Hide header until loaded */
-#chat-header {
-  visibility: hidden;
-}
-/* Updated: Wed Nov  5 20:56:50 UTC 2025 */
