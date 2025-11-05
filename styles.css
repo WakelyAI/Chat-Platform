@@ -1234,131 +1234,57 @@ button, input, textarea {
 .menu-overlay:not(.active) {
   pointer-events: none;
 }
-/* ============================================
-   LANGUAGE TOGGLE - Next to Menu Button
-   ============================================ */
-
+/* FIX 1: Language toggle - reduce size, better position */
 .language-toggle {
-  position: fixed;
-  top: 20px;
-  right: 140px;  /* Position next to menu button */
   display: flex;
-  gap: 0;
-  background: white;
-  border-radius: 20px;
-  padding: 0;
-  z-index: 90;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 2px;
+  margin-left: auto;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .lang-btn {
-  background: white;
+  background: transparent;
   border: none;
-  padding: 8px 16px;
-  border-radius: 0;
-  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   transition: all 0.2s;
-  min-width: 45px;
-  border-right: 1px solid var(--border-color);
-}
-
-.lang-btn:last-child {
-  border-right: none;
+  min-width: 32px;
 }
 
 .lang-btn.active {
-  background: var(--primary-color);
-  color: white;
+  background: white;
+  color: var(--primary-color);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.lang-btn:hover:not(.active) {
-  background: var(--bg-secondary);
-}
-
-/* ============================================
-   MENU BUTTON - Back to Original Position
-   ============================================ */
-
+/* FIX 2: Menu button - don't cover language toggle */
 .menu-btn {
   position: fixed;
-  top: 20px;
+  top: 90px;
   right: 20px;
   background: var(--primary-color);
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border-radius: 20px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   cursor: pointer;
   z-index: 90;
   transition: transform 0.2s;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   font-size: 14px;
-}
-
-.menu-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.menu-btn.hidden {
-  display: none;
-}
-
-/* ============================================
-   MOBILE RESPONSIVE
-   ============================================ */
-
-@media (max-width: 768px) {
-  .language-toggle {
-    top: 15px;
-    right: 120px;
-  }
-  
-  .lang-btn {
-    padding: 6px 12px;
-    font-size: 12px;
-    min-width: 38px;
-  }
-  
-  .menu-btn {
-    top: 15px;
-    right: 15px;
-    padding: 8px 16px;
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 480px) {
-  .language-toggle {
-    top: 12px;
-    right: 100px;
-  }
-  
-  .lang-btn {
-    padding: 5px 10px;
-    font-size: 11px;
-    min-width: 32px;
-  }
-  
-  .menu-btn {
-    top: 12px;
-    right: 12px;
-    padding: 6px 12px;
-    font-size: 12px;
-    gap: 6px;
-  }
-  
-  .menu-btn svg {
-    width: 16px;
-    height: 16px;
-  }
 }
 
 /* FIX 3: Ensure menu doesn't auto-open */
@@ -1422,7 +1348,7 @@ button, input, textarea {
   position: relative;
 }
 
-#chat-header > div {
+#chat-header > div:first-of-type {
   text-align: center;
   flex: 1;
 }

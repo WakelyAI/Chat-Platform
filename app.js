@@ -54,25 +54,47 @@ function initLanguageToggle() {
  * Update all UI text after language change
  */
 function updateUILanguage() {
-  // ONLY update text that's currently visible
-  // DO NOT touch menu or order - they update themselves when opened
+  // Update only visible text elements, DON'T touch menu panel state
   
-  // 1. Update input placeholder
+  // Message input placeholder
   const chatInput = document.getElementById('chat-input');
   if (chatInput) {
     chatInput.placeholder = i18n.t('messagePlaceholder');
   }
   
-  // 2. Update menu button text IF it exists and is visible
+  // Menu button text (if visible)
   const menuBtn = document.querySelector('.menu-btn span');
-  if (menuBtn && !document.getElementById('menu-btn').classList.contains('hidden')) {
+  if (menuBtn) {
     menuBtn.textContent = i18n.t('menu');
   }
   
-  // That's it! Don't touch anything else!
-  // Menu and order will update themselves when user opens them
-}
-
+  // Only update menu content if menu is actually open
+  const menuPanel = document.getElementById('menu-panel');
+  if (menuPanel && menuPanel.classList.contains('active')) {
+    // Update menu header
+    const menuHeader = document.querySelector('.menu-header h3');
+    if (menuHeader) {
+      menuHeader.textContent = i18n.t('ourMenu');
+    }
+    
+    // Update search placeholder
+    const searchInput = document.getElementById('menu-search');
+    if (searchInput) {
+      searchInput.placeholder = i18n.t('search');
+    }
+    
+    // Re-render menu items with new language
+    if (window.menuData && window.menuData.length > 0) {
+      const filtered = window.currentCategory === 'all' 
+        ? window.menuData 
+        : window.menuData.filter(item => item.category === window.currentCategory);
+      
+      if (typeof displayMenuItems === 'function') {
+        displayMenuItems(filtered);
+      }
+    }
+  }
+  
   // Only update order content if order exists
   if (window.currentOrderState && window.currentOrderState.items) {
     // Update order sheet header
