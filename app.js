@@ -29,6 +29,17 @@ function initLanguageToggle() {
       if (btn.classList.contains('active')) return;
       
       // Switch language
+      
+      // Prevent RTL transition visual glitch during language switch
+      document.documentElement.style.transition = 'none';
+      document.body.style.transition = 'none';
+      
+      // Also prevent menu elements from sliding during RTL switch
+      const menuElements = document.querySelectorAll('.menu-btn, .menu-panel, .menu-overlay');
+      menuElements.forEach(el => {
+        if (el) el.style.transition = 'none';
+      });
+      
       i18n.setLanguage(newLang);
       isChangingLanguage = true;
       
@@ -37,6 +48,16 @@ function initLanguageToggle() {
       btn.classList.add('active');
       
       // Close menu panel if open (CRITICAL FIX)
+      
+      // Re-enable transitions after language switch completes
+      setTimeout(() => {
+        document.documentElement.style.transition = '';
+        document.body.style.transition = '';
+        const menuElements = document.querySelectorAll('.menu-btn, .menu-panel, .menu-overlay');
+        menuElements.forEach(el => {
+          if (el) el.style.transition = '';
+        });
+      }, 100);
       const menuPanel = document.getElementById('menu-panel');
       const menuOverlay = document.getElementById('menu-overlay');
       if (menuPanel) {
@@ -47,7 +68,7 @@ function initLanguageToggle() {
       }
       
       // Update UI text
-      setTimeout(() => { updateUILanguage(); }, 100);
+      updateUILanguage();
     });
   });
 }
@@ -739,15 +760,3 @@ function showMenuButton() {
 }
 
 // Update the existing updateOrderPanel function
-
-// Setup menu button click handler (replacing inline onclick)
-document.addEventListener('DOMContentLoaded', function() {
-    const menuBtn = document.getElementById('menu-btn');
-    if (menuBtn) {
-        menuBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleMenu();
-        });
-    }
-});
