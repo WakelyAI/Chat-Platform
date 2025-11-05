@@ -1,6 +1,7 @@
 // ============================================
 // LANGUAGE MANAGEMENT
 // ============================================
+let isChangingLanguage = false;
 
 /**
  * Initialize language toggle
@@ -29,6 +30,7 @@ function initLanguageToggle() {
       
       // Switch language
       i18n.setLanguage(newLang);
+      isChangingLanguage = true;
       
       // Update button states
       langButtons.forEach(b => b.classList.remove('active'));
@@ -138,7 +140,7 @@ if (!sessionId) {
 
 let organization = null;
 let isSending = false;
-window.window.currentOrderState = null;
+window.currentOrderState = null;
 
 
 // Initialize
@@ -706,6 +708,7 @@ function getItemEmoji(category) {
 }
 
 function toggleMenu() {
+    if (isChangingLanguage) { isChangingLanguage = false; return; }
     const panel = document.getElementById('menu-panel');
     const overlay = document.getElementById('menu-overlay');
     
@@ -736,11 +739,3 @@ function showMenuButton() {
 }
 
 // Update the existing updateOrderPanel function
-const originalUpdateOrderPanel = updateOrderPanel;
-updateOrderPanel = function(orderState) {
-    originalUpdateOrderPanel(orderState);
-    // FIXED: Show menu button when order exists (even with empty items)
-    if (orderState) {
-        showMenuButton();
-    }
-};
