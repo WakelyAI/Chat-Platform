@@ -1234,3 +1234,143 @@ button, input, textarea {
 .menu-overlay:not(.active) {
   pointer-events: none;
 }
+/* FIX 1: Language toggle - reduce size, better position */
+.language-toggle {
+  display: flex;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 2px;
+  margin-left: auto;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 32px;
+}
+
+.lang-btn.active {
+  background: white;
+  color: var(--primary-color);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* FIX 2: Menu button - don't cover language toggle */
+.menu-btn {
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  z-index: 90;
+  transition: transform 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+}
+
+/* FIX 3: Ensure menu doesn't auto-open */
+.menu-panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 80%;
+  max-width: 400px;
+  background: white;
+  border-radius: 0 20px 20px 0;
+  box-shadow: 5px 0 25px rgba(0, 0, 0, 0.08);
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 96;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.menu-panel.active {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* FIX 4: Ensure overlay is truly hidden when not active */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 95;
+}
+
+.menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* FIX 5: Header layout - better spacing for language toggle */
+#chat-header {
+  padding: 1rem 1.5rem;
+  background: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+#chat-header > div:first-of-type {
+  text-align: center;
+  flex: 1;
+}
+
+/* Mobile fixes */
+@media (max-width: 768px) {
+  .language-toggle {
+    right: 10px;
+    gap: 1px;
+    padding: 2px;
+  }
+  
+  .lang-btn {
+    padding: 3px 8px;
+    font-size: 10px;
+    min-width: 28px;
+  }
+  
+  .menu-btn {
+    top: 80px;
+    right: 15px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}

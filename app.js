@@ -18,7 +18,10 @@ function initLanguageToggle() {
   
   // Add click handlers
   langButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
       const newLang = btn.dataset.lang;
       
       // Don't do anything if already active
@@ -31,56 +34,79 @@ function initLanguageToggle() {
       langButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       
+      // Close menu panel if open (CRITICAL FIX)
+      const menuPanel = document.getElementById('menu-panel');
+      const menuOverlay = document.getElementById('menu-overlay');
+      if (menuPanel) {
+        menuPanel.classList.remove('active');
+      }
+      if (menuOverlay) {
+        menuOverlay.classList.remove('active');
+      }
+      
       // Update UI text
       updateUILanguage();
     });
   });
-      // Update UI text
-      updateUILanguage();
-      
-      // Close menu if open (prevent stuck menu)
-      const menuPanel = document.getElementById('menu-panel');
-      const menuOverlay = document.getElementById('menu-overlay');
-      if (menuPanel) menuPanel.classList.remove('active');
-      if (menuOverlay) menuOverlay.classList.remove('active');
 }
 
 /**
  * Update all UI text after language change
  */
 function updateUILanguage() {
-  // Update menu button text only
-  const menuBtn = document.querySelector('.menu-btn span');
-  if (menuBtn) menuBtn.textContent = i18n.t('menu');
+  // Update only visible text elements, DON'T touch menu panel state
   
-  // Update menu header (if menu is open)
+  // Message input placeholder
+  const chatInput = document.getElementById('chat-input');
+  if (chatInput) {
+    chatInput.placeholder = i18n.t('messagePlaceholder');
+  }
+  
+  // Menu button text (if visible)
+  const menuBtn = document.querySelector('.menu-btn span');
+  if (menuBtn) {
+    menuBtn.textContent = i18n.t('menu');
+  }
+  
+  // Only update menu content if menu is actually open
   const menuPanel = document.getElementById('menu-panel');
   if (menuPanel && menuPanel.classList.contains('active')) {
+    // Update menu header
     const menuHeader = document.querySelector('.menu-header h3');
-    if (menuHeader) menuHeader.textContent = i18n.t('ourMenu');
+    if (menuHeader) {
+      menuHeader.textContent = i18n.t('ourMenu');
+    }
     
+    // Update search placeholder
     const searchInput = document.getElementById('menu-search');
-    if (searchInput) searchInput.placeholder = i18n.t('search');
+    if (searchInput) {
+      searchInput.placeholder = i18n.t('search');
+    }
     
-    // Re-render menu items if loaded
+    // Re-render menu items with new language
     if (window.menuData && window.menuData.length > 0) {
       const filtered = window.currentCategory === 'all' 
         ? window.menuData 
         : window.menuData.filter(item => item.category === window.currentCategory);
-      displayMenuItems(filtered);
+      
+      if (typeof displayMenuItems === 'function') {
+        displayMenuItems(filtered);
+      }
     }
   }
   
-  // Update message placeholder
-  const chatInput = document.getElementById('chat-input');
-  if (chatInput) chatInput.placeholder = i18n.t('messagePlaceholder');
-  
-  // Update order sheet header (if order exists)
-  if (window.currentOrderState) {
+  // Only update order content if order exists
+  if (window.currentOrderState && window.currentOrderState.items) {
+    // Update order sheet header
     const orderHeader = document.querySelector('.sheet-header h3');
-    if (orderHeader) orderHeader.textContent = i18n.t('yourOrder');
+    if (orderHeader) {
+      orderHeader.textContent = i18n.t('yourOrder');
+    }
     
-    renderOrderItems(window.currentOrderState);
+    // Re-render order items
+    if (typeof renderOrderItems === 'function') {
+      renderOrderItems(window.currentOrderState);
+    }
   }
 }
 
