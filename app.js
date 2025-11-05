@@ -48,6 +48,7 @@ function initLanguageToggle() {
       
       // Update UI text
       updateUILanguage();
+      isChangingLanguage = false;
     });
   });
 }
