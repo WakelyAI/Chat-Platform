@@ -150,7 +150,7 @@ class I18n {
   applyLanguageAttributes() {
     const html = document.documentElement;
     html.setAttribute('lang', this.currentLang);
-    html.setAttribute('dir', this.currentLang === 'ar' ? 'rtl' : 'ltr');
+    // html.setAttribute('dir', this.currentLang === 'ar' ? 'rtl' : 'ltr');
   }
   
   /**

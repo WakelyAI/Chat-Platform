@@ -1152,72 +1152,72 @@ button, input, textarea {
    RTL (Right-to-Left) SUPPORT
    ============================================ */
 
-[dir="rtl"] {
-    text-align: right;
-}
+// [dir="rtl"] {
+//     text-align: right;
+// }
 
 /* RTL - Message alignment */
-[dir="rtl"] .message {
-    direction: rtl;
-}
+// [dir="rtl"] .message {
+//     direction: rtl;
+// }
 
-[dir="rtl"] .message-content {
-    text-align: right;
-}
+// [dir="rtl"] .message-content {
+//     text-align: right;
+// }
 
 /* RTL - Input */
-[dir="rtl"] #chat-input {
-    text-align: right;
-}
+// [dir="rtl"] #chat-input {
+//     text-align: right;
+// }
 
 /* RTL - Menu panel flips to right side */
-[dir="rtl"] .menu-panel {
-    left: auto;
-    right: 0;
-    border-radius: 20px 0 0 20px;
-}
+// [dir="rtl"] .menu-panel {
+//     left: auto;
+//     right: 0;
+//     border-radius: 20px 0 0 20px;
+// }
 
 /* RTL - Menu items */
-[dir="rtl"] .menu-item {
-    direction: rtl;
-}
+// [dir="rtl"] .menu-item {
+//     direction: rtl;
+// }
 
-[dir="rtl"] .menu-item-image {
-    margin-right: 0;
-    margin-left: 15px;
-}
+// [dir="rtl"] .menu-item-image {
+//     margin-right: 0;
+//     margin-left: 15px;
+// }
 
 /* RTL - Language toggle position */
-[dir="rtl"] .language-toggle {
-    margin-left: 0;
-    margin-right: auto;
-}
+// [dir="rtl"] .language-toggle {
+//     margin-left: 0;
+//     margin-right: auto;
+// }
 
 /* RTL - Order items */
-[dir="rtl"] .order-item {
-    direction: rtl;
-}
+// [dir="rtl"] .order-item {
+//     direction: rtl;
+// }
 
-[dir="rtl"] .item-modifiers {
-    padding-left: 0;
-    padding-right: 38px;
-}
+// [dir="rtl"] .item-modifiers {
+//     padding-left: 0;
+//     padding-right: 38px;
+// }
 
-[dir="rtl"] .item-notes {
-    padding-left: 0;
-    padding-right: 38px;
-}
+// [dir="rtl"] .item-notes {
+//     padding-left: 0;
+//     padding-right: 38px;
+// }
 
 /* RTL - Mobile button position */
-[dir="rtl"] .mobile-order-btn {
-    right: auto;
-    left: 20px;
-}
+// [dir="rtl"] .mobile-order-btn {
+//     right: auto;
+//     left: 20px;
+// }
 
-[dir="rtl"] .menu-btn {
-    right: auto;
-    left: 20px;
-}
+// [dir="rtl"] .menu-btn {
+//     right: auto;
+//     left: 20px;
+// }
 
 /* Prevent menu from overlapping chat on language change */
 .menu-panel {
@@ -1381,7 +1381,7 @@ button, input, textarea {
   right: auto !important;
 }
 
-[dir='rtl'] .menu-panel {
-  left: 0 !important;
-  right: auto !important;
-}
+// [dir='rtl'] .menu-panel {
+//   left: 0 !important;
+//   right: auto !important;
+// }
