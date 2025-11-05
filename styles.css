@@ -1219,3 +1219,18 @@ button, input, textarea {
     left: 20px;
 }
 
+/* Prevent menu from overlapping chat on language change */
+.menu-panel {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+/* Ensure menu is hidden by default */
+.menu-panel:not(.active) {
+  pointer-events: none;
+}
+
+/* Ensure overlay is hidden by default */
+.menu-overlay:not(.active) {
+  pointer-events: none;
+}

@@ -35,43 +35,52 @@ function initLanguageToggle() {
       updateUILanguage();
     });
   });
+      // Update UI text
+      updateUILanguage();
+      
+      // Close menu if open (prevent stuck menu)
+      const menuPanel = document.getElementById('menu-panel');
+      const menuOverlay = document.getElementById('menu-overlay');
+      if (menuPanel) menuPanel.classList.remove('active');
+      if (menuOverlay) menuOverlay.classList.remove('active');
 }
 
 /**
  * Update all UI text after language change
  */
 function updateUILanguage() {
-  // Menu button
+  // Update menu button text only
   const menuBtn = document.querySelector('.menu-btn span');
   if (menuBtn) menuBtn.textContent = i18n.t('menu');
   
-  // Menu header
-  const menuHeader = document.querySelector('.menu-header h3');
-  if (menuHeader) menuHeader.textContent = i18n.t('ourMenu');
+  // Update menu header (if menu is open)
+  const menuPanel = document.getElementById('menu-panel');
+  if (menuPanel && menuPanel.classList.contains('active')) {
+    const menuHeader = document.querySelector('.menu-header h3');
+    if (menuHeader) menuHeader.textContent = i18n.t('ourMenu');
+    
+    const searchInput = document.getElementById('menu-search');
+    if (searchInput) searchInput.placeholder = i18n.t('search');
+    
+    // Re-render menu items if loaded
+    if (window.menuData && window.menuData.length > 0) {
+      const filtered = window.currentCategory === 'all' 
+        ? window.menuData 
+        : window.menuData.filter(item => item.category === window.currentCategory);
+      displayMenuItems(filtered);
+    }
+  }
   
-  // Search placeholder
-  const searchInput = document.getElementById('menu-search');
-  if (searchInput) searchInput.placeholder = i18n.t('search');
-  
-  // Message input placeholder
+  // Update message placeholder
   const chatInput = document.getElementById('chat-input');
   if (chatInput) chatInput.placeholder = i18n.t('messagePlaceholder');
   
-  // Order sheet header
-  const orderHeader = document.querySelector('.sheet-header h3');
-  if (orderHeader) orderHeader.textContent = i18n.t('yourOrder');
-  
-  // Re-render menu items if loaded
-  if (window.window.menuData && window.window.menuData.length > 0) {
-    const filtered = window.window.currentCategory === 'all' 
-      ? window.window.menuData 
-      : window.window.menuData.filter(item => item.category === window.window.currentCategory);
-    displayMenuItems(filtered);
-  }
-  
-  // Re-render order items if exist
-  if (window.window.currentOrderState) {
-    renderOrderItems(window.window.currentOrderState);
+  // Update order sheet header (if order exists)
+  if (window.currentOrderState) {
+    const orderHeader = document.querySelector('.sheet-header h3');
+    if (orderHeader) orderHeader.textContent = i18n.t('yourOrder');
+    
+    renderOrderItems(window.currentOrderState);
   }
 }
 
