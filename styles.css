@@ -1222,3 +1222,18 @@ button, input, textarea {
     right: 90px !important;
   }
 }
+
+/* Language toggle position and style fix */
+#language-toggle, .language-toggle {
+  right: 70px !important;  /* Move closer to menu (was 110px) */
+  background: none !important;  /* Remove shadow/background */
+  box-shadow: none !important;  /* Remove any shadow */
+  padding: 0 !important;  /* Remove padding that creates the "square" */
+}
+
+/* Mobile - also move language closer to menu */
+@media (max-width: 768px) {
+  #language-toggle, .language-toggle {
+    right: 65px !important;  /* Closer to menu on mobile */
+  }
+}
