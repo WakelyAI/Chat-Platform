@@ -9,6 +9,9 @@ let isChangingLanguage = false;
 /**
  * Initialize single language toggle button
  */
+/**
+ * Initialize single language toggle button
+ */
 function initLanguageToggle() {
   const toggleBtn = document.getElementById('language-toggle');
   if (!toggleBtn) return;
@@ -35,35 +38,7 @@ function initLanguageToggle() {
     // Update UI text
     updateUILanguage();
   });
-}
-      
-      // Re-enable transitions after language switch completes
-      setTimeout(() => {
-        document.documentElement.style.transition = '';
-        document.body.style.transition = '';
-        const menuElements = document.querySelectorAll('.menu-btn, .menu-panel, .menu-overlay');
-        menuElements.forEach(el => {
-          if (el) el.style.transition = '';
-        });
-      }, 100);
-      const menuPanel = document.getElementById('menu-panel');
-      const menuOverlay = document.getElementById('menu-overlay');
-      if (menuPanel) {
-        menuPanel.classList.remove('active');
-      }
-      if (menuOverlay) {
-        menuOverlay.classList.remove('active');
-      }
-      
-      // Update UI text
-      updateUILanguage();
-    });
-  });
-}
-
-/**
- * Update all UI text after language change
- */
+}  // <-- THIS CLOSING BRACE WAS MISSING!
 function updateUILanguage() {
   // Update only visible text elements, DON'T touch menu panel state
   
