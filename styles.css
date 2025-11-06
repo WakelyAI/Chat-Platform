@@ -1121,7 +1121,7 @@ button, input, textarea {
     background: rgba(0, 0, 0, 0.05);
     border-radius: 8px;
     padding: 4px;
-    margin-left: auto;
+    // margin-left: auto;
 }
 
 .lang-btn {
