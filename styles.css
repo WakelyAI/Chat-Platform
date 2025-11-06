@@ -1198,191 +1198,27 @@ button, input, textarea {
 //     direction: rtl;
 // }
 
+/* === CLEAN BUTTON POSITIONING === */
 
-/* === Language & Menu Fixes - Clean Version === */
-
-/* Language Toggle */
-.language-toggle {
-  position: absolute;
-  right: 80px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  gap: 2px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  padding: 2px;
+/* Language Toggle - Right side, in header area */
+#language-toggle, .language-toggle {
+  position: fixed !important;
+  top: 25px !important;
+  right: 110px !important;
+  z-index: 100 !important;
 }
 
-.lang-btn {
-  padding: 5px 10px;
-  border: none;
-  background: transparent;
-  color: white;
-  border-radius: 3px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.lang-btn.active {
-  background: white;
-  color: var(--primary-color);
-}
-
-/* Menu Button Position Fix */
+/* Menu Button - Far right, in header area */
 .menu-btn {
-  position: fixed;
-  top: 85px;
-  right: 20px;
-}
-
-/* Menu Panel - Always Left */
-.menu-panel {
-  left: 0 !important;
-  transform: translateX(-100%);
-}
-
-.menu-panel.active {
-  transform: translateX(0);
-}
-
-/* Mobile Responsive */
-
-/* === Final Clean Layout - Buttons Aligned with Header === */
-
-/* Language Toggle - Inside header, right side */
-.language-toggle {
-  position: absolute;
-  right: 110px;  /* Space for menu button */
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  gap: 2px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 6px;
-  padding: 2px;
-}
-
-.lang-btn {
-  padding: 5px 12px;
-  border: none;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.9);
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.lang-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.lang-btn.active {
-  background: white;
-  color: var(--primary-color);
-}
-
-/* Menu Button - Inside header, far right */
-.menu-btn {
-  position: absolute !important;
+  position: fixed !important;
+  top: 25px !important;
   right: 20px !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--primary-color);
-  padding: 7px 14px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.menu-btn:hover {
-  background: white;
-}
-
-/* Ensure header is relatively positioned */
-#chat-header {
-  position: relative;
-}
-
-/* Menu Panel - Always Left */
-.menu-panel {
-  left: 0 !important;
-}
-
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-  .language-toggle {
-    right: 85px;
-  }
-  
-  .lang-btn {
-    padding: 4px 8px;
-    font-size: 11px;
-  }
-  
-  .menu-btn {
-    padding: 6px 10px !important;
-    font-size: 12px !important;
-  }
-}
-
-/* === FIXED: Buttons properly aligned in header === */
-
-/* Menu Button - Right side, centered in header */
-.menu-btn {
-  position: absolute !important;
-  right: 20px !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  z-index: 10 !important;
-}
-
-/* Language Toggle - Next to menu button, centered in header */
-.language-toggle {
-  position: absolute !important;
-  right: 100px !important;  /* Enough space for menu button */
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  z-index: 10 !important;
-}
-
-/* Make language buttons visible and properly sized */
-.lang-btn {
-  padding: 6px 12px !important;
-  font-size: 13px !important;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
-}
-
-.lang-btn.active {
-  background: white !important;
-  color: var(--primary-color) !important;
-}
-
-/* Ensure header has relative positioning */
-#chat-header {
-  position: relative !important;
+  z-index: 100 !important;
 }
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
-  .language-toggle {
+  #language-toggle, .language-toggle {
     right: 90px !important;
-  }
-  
-  .lang-btn {
-    padding: 5px 10px !important;
-    font-size: 12px !important;
-  }
-  
-  .menu-btn {
-    padding: 6px 12px !important;
-    font-size: 13px !important;
   }
 }
