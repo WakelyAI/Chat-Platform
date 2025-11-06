@@ -1280,3 +1280,14 @@ button, input, textarea {
 .language-toggle-btn:active {
   transform: scale(0.95);
 }
+
+/* FORCE the single button to appear */
+button#language-toggle {
+  position: fixed !important;
+  top: 25px !important;
+  right: -50px !important;
+  z-index: 1000 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
