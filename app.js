@@ -6,48 +6,36 @@ let isChangingLanguage = false;
 /**
  * Initialize language toggle
  */
+/**
+ * Initialize single language toggle button
+ */
 function initLanguageToggle() {
-  const langButtons = document.querySelectorAll('.lang-btn');
+  const toggleBtn = document.getElementById('language-toggle');
+  if (!toggleBtn) return;
   
-  // Set initial active state
+  // Set initial text based on current language
   const currentLang = i18n.getCurrentLanguage();
-  langButtons.forEach(btn => {
-    if (btn.dataset.lang === currentLang) {
-      btn.classList.add('active');
-    }
-  });
+  toggleBtn.textContent = currentLang.toUpperCase();
   
-  // Add click handlers
-  langButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      const newLang = btn.dataset.lang;
-      
-      // Don't do anything if already active
-      if (btn.classList.contains('active')) return;
-      
-      // Switch language
-      
-      // Prevent RTL transition visual glitch during language switch
-      document.documentElement.style.transition = 'none';
-      document.body.style.transition = 'none';
-      
-      // Also prevent menu elements from sliding during RTL switch
-      const menuElements = document.querySelectorAll('.menu-btn, .menu-panel, .menu-overlay');
-      menuElements.forEach(el => {
-        if (el) el.style.transition = 'none';
-      });
-      
-      i18n.setLanguage(newLang);
-      isChangingLanguage = true;
-      
-      // Update button states
-      langButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      
-      // Close menu panel if open (CRITICAL FIX)
+  // Single click handler to toggle between languages
+  toggleBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Get current language and determine new language
+    const currentLang = i18n.getCurrentLanguage();
+    const newLang = currentLang === 'en' ? 'ar' : 'en';
+    
+    // Switch language
+    i18n.setLanguage(newLang);
+    
+    // Update button text
+    toggleBtn.textContent = newLang.toUpperCase();
+    
+    // Update UI text
+    updateUILanguage();
+  });
+}
       
       // Re-enable transitions after language switch completes
       setTimeout(() => {
