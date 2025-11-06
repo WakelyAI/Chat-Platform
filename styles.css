@@ -1234,6 +1234,6 @@ button, input, textarea {
 /* Mobile - also move language closer to menu */
 @media (max-width: 768px) {
   #language-toggle, .language-toggle {
-    right: 65px !important;  /* Closer to menu on mobile */
+    right: 55px !important;  /* Closer to menu on mobile */
   }
 }
