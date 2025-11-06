@@ -1226,13 +1226,13 @@ button, input, textarea {
 /* Mobile adjustments */
 @media (max-width: 768px) {
   #language-toggle, .language-toggle {
-    right: -50px !important;
+    right: 100px !important;
   }
 }
 
 /* Language toggle position and style fix */
 #language-toggle, .language-toggle {
-  right: -50px !important;  /* Move closer to menu (was 110px) */
+  right: 100px !important;  /* Move closer to menu (was 110px) */
   background: none !important;  /* Remove shadow/background */
   box-shadow: none !important;  /* Remove any shadow */
   padding: 0 !important;  /* Remove padding that creates the "square" */
@@ -1241,7 +1241,7 @@ button, input, textarea {
 /* Mobile - also move language closer to menu */
 @media (max-width: 768px) {
   #language-toggle, .language-toggle {
-    right: -50px !important;  /* Closer to menu on mobile */
+    right: 100px !important;  /* Closer to menu on mobile */
   }
 }
 
@@ -1249,7 +1249,7 @@ button, input, textarea {
 .language-toggle-btn {
   position: fixed;
   top: 25px;
-  right: -50px;
+  right: 100px;
   z-index: 100;
   padding: 8px 16px;
   background: rgba(255, 255, 255, 0.2);
@@ -1262,7 +1262,7 @@ button, input, textarea {
   transition: all 0.2s ease;
   position: fixed;
   top: 25px;
-  right: -50px;
+  right: 100px;
   z-index: 100;
 }
 
