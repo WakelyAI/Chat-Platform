@@ -1330,17 +1330,59 @@ button, input, textarea {
   }
 }
 
-/* Buttons close together in header */
+/* === FIXED: Buttons properly aligned in header === */
+
+/* Menu Button - Right side, centered in header */
 .menu-btn {
   position: absolute !important;
   right: 20px !important;
-  top: 20px !important;
-  transform: none !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 10 !important;
 }
 
+/* Language Toggle - Next to menu button, centered in header */
 .language-toggle {
   position: absolute !important;
-  right: 90px !important;  /* Changed from 100px to 90px - closer together */
-  top: 20px !important;
-  transform: none !important;
+  right: 100px !important;  /* Enough space for menu button */
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 10 !important;
+}
+
+/* Make language buttons visible and properly sized */
+.lang-btn {
+  padding: 6px 12px !important;
+  font-size: 13px !important;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.lang-btn.active {
+  background: white !important;
+  color: var(--primary-color) !important;
+}
+
+/* Ensure header has relative positioning */
+#chat-header {
+  position: relative !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .language-toggle {
+    right: 90px !important;
+  }
+  
+  .lang-btn {
+    padding: 5px 10px !important;
+    font-size: 12px !important;
+  }
+  
+  .menu-btn {
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+  }
 }
