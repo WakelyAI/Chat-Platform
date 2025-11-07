@@ -15,14 +15,22 @@ async function loadMenu() {
         // Extract unique categories
         const categories = [...new Set(window.menuData.map(item => item.category))].filter(Boolean);
         
-        // Build category tabs
+        // Build category tabs WITHOUT onclick
         const categoryHtml = `
-            <button class="category-tab active" data-category="all" onclick="filterCategory('all')">All</button>
+            <button class="category-tab active" data-category="all">All</button>
             ${categories.map(cat => 
-                `<button class="category-tab" data-category="${cat}" onclick="filterCategory('${cat}')">${cat}</button>`
+                `<button class="category-tab" data-category="${cat}">${cat}</button>`
             ).join('')}
         `;
         document.getElementById('menu-categories').innerHTML = categoryHtml;
+        
+        // Add event listeners to category buttons using delegation
+        const menuCategories = document.getElementById('menu-categories');
+        menuCategories.addEventListener('click', function(e) {
+            if (e.target.classList.contains('category-tab')) {
+                filterCategory(e.target.dataset.category);
+            }
+        });
         
         // Display all items
         displayMenuItems(window.menuData);
@@ -39,12 +47,13 @@ function displayMenuItems(items) {
         return;
     }
     
+    // Build items WITHOUT onclick
     container.innerHTML = items.map(item => {
         const itemName = i18n.getItemName(item);
         const itemDesc = i18n.getItemDescription(item);
         
         return `
-            <div class="menu-item" onclick="askAboutItem('${item.name}')">
+            <div class="menu-item" data-item-name="${item.name}">
                 <div class="menu-item-image">
                     ${item.image ? `<img src="${item.image}" alt="${itemName}" style="width:100%;height:100%;object-fit:cover;">` : getItemEmoji(item.category)}
                 </div>
@@ -56,6 +65,18 @@ function displayMenuItems(items) {
             </div>
         `;
     }).join('');
+    
+    // Add event listener for menu items using delegation
+    if (!container.dataset.listenerAdded) {
+        container.addEventListener('click', function(e) {
+            const menuItem = e.target.closest('.menu-item');
+            if (menuItem) {
+                const itemName = menuItem.dataset.itemName;
+                askAboutItem(itemName);
+            }
+        });
+        container.dataset.listenerAdded = 'true';
+    }
 }
 
 function filterCategory(category) {
@@ -123,4 +144,3 @@ function askAboutItem(itemName) {
 function showMenuButton() {
     document.getElementById('menu-btn').classList.remove('hidden');
 }
-
