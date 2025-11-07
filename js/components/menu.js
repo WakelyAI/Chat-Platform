@@ -5,12 +5,9 @@
 
 async function loadMenu() {
     try {
-        const response = await fetch(`https://api.wakely.ai/api/public/menu/${organizationId}`);
+        window.menuData = await ApiService.loadMenu(organizationId);
         
-        if (!response.ok) return;
-        
-        const data = await response.json();
-        window.menuData = data.menu;
+        if (!window.menuData || window.menuData.length === 0) return;
         
         // Extract unique categories
         const categories = [...new Set(window.menuData.map(item => item.category))].filter(Boolean);
