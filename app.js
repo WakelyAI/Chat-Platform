@@ -68,7 +68,13 @@ function updateUILanguage() {
     if (searchInput) {
       searchInput.placeholder = i18n.t('search');
     }
-    
+
+    // Update loading text
+    const loadingDiv = document.querySelector('.menu-loading');
+    if (loadingDiv) {
+      loadingDiv.textContent = i18n.t('loadingMenu');
+    }
+
     // Re-render menu items with new language
     if (window.menuData && window.menuData.length > 0) {
       const filtered = window.currentCategory === 'all' 
