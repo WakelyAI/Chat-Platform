@@ -1151,3 +1151,49 @@ button#language-toggle:hover {
     height: 36px !important;
   }
 }
+
+/* ============================================
+   MODERN CHAT BUBBLE DESIGN
+   ============================================ */
+
+/* Hide ALL avatar squares */
+.message-avatar {
+    display: none !important;
+}
+
+/* Remove the "You" label for user messages */
+.message.user .message-label {
+    display: none !important;
+}
+
+/* Style user messages with bubble */
+.message.user .message-content {
+    background: #e3f2fd !important;
+    border-radius: 18px !important;
+    padding: 12px 16px !important;
+    display: inline-block !important;
+    max-width: 80% !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Remove the background from the message-text inside user bubble */
+.message.user .message-text {
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Keep bot messages as is, but adjust spacing since avatar is gone */
+.message.bot .message-content {
+    margin-left: 0 !important;
+}
+
+/* Adjust message wrapper spacing */
+.message {
+    gap: 0 !important;
+}
+
+/* Indent user messages slightly */
+.message.user {
+    margin-left: 20px !important;
+}
