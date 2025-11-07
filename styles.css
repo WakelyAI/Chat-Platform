@@ -1168,7 +1168,7 @@ button#language-toggle:hover {
 
 /* Style user messages with bubble */
 .message.user .message-content {
-    background: #f5f5f5 !important;
+    background: #f8f8f8 !important;
     border-radius: 18px !important;
     padding: 12px 16px !important;
     display: inline-block !important;
