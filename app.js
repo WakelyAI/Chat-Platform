@@ -581,11 +581,6 @@ function handleSheetDrag(event) {
 // ============================================
 
 // Initialize language toggle
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLanguageToggle);
-} else {
-    initLanguageToggle();
-}
 
 // Initialize main app
 if (document.readyState === 'loading') {

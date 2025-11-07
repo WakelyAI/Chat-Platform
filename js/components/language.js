@@ -80,3 +80,10 @@ function updateUILanguage() {
         }
     }
 }
+
+// Initialize language toggle when DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLanguageToggle);
+} else {
+    initLanguageToggle();
+}
