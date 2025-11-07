@@ -56,7 +56,7 @@ function updateUILanguage() {
   
   // Only update menu content if menu is actually open
   const menuPanel = document.getElementById('menu-panel');
-  if (menuPanel && menuPanel.classList.contains('active')) {
+  if (menuPanel) {
     // Update menu header
     const menuHeader = document.querySelector('.menu-header h3');
     if (menuHeader) {
