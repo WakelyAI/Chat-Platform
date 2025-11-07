@@ -92,7 +92,7 @@ async function init() {
         chatInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                handleSend();
+                if (!isSending) handleSend();
             }
         });
         

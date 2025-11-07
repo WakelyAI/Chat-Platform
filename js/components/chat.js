@@ -16,7 +16,7 @@ async function handleSend() {
     isSending = true;
     sendBtn.disabled = true;
     sendBtn.classList.add('sending');
-    input.disabled = true;
+    // input.disabled = true; // Allow typing while waiting
     
     // Clear input
     input.value = '';
@@ -83,7 +83,7 @@ async function handleSend() {
         isSending = false;
         sendBtn.disabled = false;
         sendBtn.classList.remove('sending');
-        input.disabled = false;
+        // input.disabled = false; // No longer needed
         
         if (window.innerWidth > 768) {
             input.focus();
