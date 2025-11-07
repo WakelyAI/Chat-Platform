@@ -29,30 +29,8 @@ async function handleSend() {
     const typingId = showTyping();
     
     try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000);
+        const data = await ApiService.sendChatMessage(message, sessionId, organization);
         
-        const response = await fetch(N8N_WEBHOOK, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: message,
-                userId: sessionId,
-                whatsapp_number: organization?.whatsapp_number || '',
-                channel: 'web'
-            }),
-            signal: controller.signal
-        });
-        
-        clearTimeout(timeoutId);
-        
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        
-        const data = await response.json();
         console.log('Full response from n8n:', data);
         
         if (data.orderState) {
@@ -74,7 +52,7 @@ async function handleSend() {
         console.error('Send error:', error);
         removeTyping(typingId);
         
-        if (error.name === 'AbortError') {
+        if (error.message === 'timeout') {
             addMessage('bot', i18n.t('errorTimeout'));
         } else {
             addMessage('bot', i18n.t('errorGeneric'));
