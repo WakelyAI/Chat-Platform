@@ -42,6 +42,11 @@ const translations = {
     yourOrder: 'Your Order',
     total: 'Total',
     note: 'Note',
+    orderSent: 'Order Sent!',
+    orderConfirmed: 'Order Confirmed',
+    prepTime: '20-30 minutes',
+    pickupLocation: 'At the counter',
+    enjoy: 'Enjoy! 🎉',
     
     // Menu actions
     tellMeAbout: (item) => `Tell me about ${item}`,
@@ -85,6 +90,11 @@ const translations = {
     yourOrder: 'طلبك',
     total: 'الإجمالي',
     note: 'ملاحظة',
+    orderSent: 'تم إرسال طلبك!',
+    orderConfirmed: 'تم تأكيد الطلب',
+    prepTime: '20-30 دقيقة',
+    pickupLocation: 'من الكاشير',
+    enjoy: 'نتمنى لك تجربة ممتعة! 🎉',
     
     // Menu actions
     tellMeAbout: (item) => `أخبرني عن ${item}`,

@@ -1197,3 +1197,128 @@ button#language-toggle:hover {
 .message.user {
     margin-left: 20px !important;
 }
+
+/* ============================================
+   Order Confirmation Card - Mobile First
+   ============================================ */
+
+.order-confirmation-card {
+    background: #ffffff;
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 0;
+    margin: 12px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    max-width: 100%;
+}
+
+/* Header - matches chat header style */
+.confirmation-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.confirmation-icon {
+    font-size: 24px;
+    animation: bounceIn 0.5s ease-out;
+}
+
+.confirmation-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Order number - big and centered */
+.order-number {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-align: center;
+    padding: 20px 16px;
+    letter-spacing: 1px;
+    background: var(--bg-secondary);
+}
+
+/* Order details container */
+.order-details {
+    padding: 16px;
+    background: #ffffff;
+}
+
+/* Detail rows - like order-item style */
+.detail-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+/* Highlight important info (pickup time) */
+.detail-row.highlight {
+    background: var(--message-user);
+    padding: 12px;
+    margin: 4px -12px;
+    border-radius: 8px;
+    border-bottom: none;
+}
+
+.detail-label {
+    font-size: 18px;
+    min-width: 28px;
+    flex-shrink: 0;
+}
+
+.detail-value {
+    flex: 1;
+    font-size: 15px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Footer message */
+.confirmation-footer {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    padding: 16px;
+    background: var(--bg-secondary);
+}
+
+/* Animation for icon */
+@keyframes bounceIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Tablet and up - slightly larger */
+@media (min-width: 768px) {
+    .order-number {
+        font-size: 36px;
+    }
+    
+    .confirmation-title {
+        font-size: 18px;
+    }
+}

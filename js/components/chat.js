@@ -43,7 +43,7 @@ async function handleSend() {
         removeTyping(typingId);
         
         if (data.BotReply) {
-            addMessage('bot', data.BotReply);
+            addMessage('bot', data.BotReply, data);
         } else {
             addMessage('bot', 'I received your message. Let me help you with that.');
         }
@@ -74,7 +74,7 @@ function sendMessage() {
     handleSend();
 }
 
-function addMessage(sender, text) {
+function addMessage(sender, text, metadata = null) {
     const messagesDiv = document.getElementById('chat-messages');
     
     const wrapperDiv = document.createElement('div');
@@ -97,22 +97,74 @@ function addMessage(sender, text) {
     labelDiv.className = 'message-label';
     labelDiv.textContent = sender === 'user' ? 'You' : organization?.name || 'Assistant';
     
-    // Text with URL linking
+    // Text with URL linking (or Order Confirmation Card)
     const textDiv = document.createElement('div');
-    textDiv.className = 'message-text';
     
-    function linkifyText(text) {
-        const escaped = text
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;');
+    // Check if this is an order confirmation
+    if (CONFIG.FEATURES.ORDER_CONFIRMATION_CARD && 
+        metadata?.messageType === 'ORDER_CONFIRMATION' && 
+        metadata?.orderData) {
         
-        return escaped.replace(
-            /(https?:\/\/[^\s]+)/g,
-            '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">$1</a>'
-        );
+        const orderData = metadata.orderData;
+        textDiv.className = 'message-text order-confirmation-card';
+        
+        // Build HTML using your pattern (like renderOrderItems)
+        textDiv.innerHTML = `
+            <div class="confirmation-header">
+                <div class="confirmation-icon">✅</div>
+                <div class="confirmation-title">${i18n.t('orderSent')}</div>
+            </div>
+            <div class="order-number">#${orderData.orderReference}</div>
+            <div class="order-details">
+                <div class="detail-row">
+                    <span class="detail-label">👤</span>
+                    <span class="detail-value">${orderData.customerName}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">💰</span>
+                    <span class="detail-value">${i18n.formatPrice(orderData.totalAmount)}</span>
+                </div>
+                <div class="detail-row highlight">
+                    <span class="detail-label">⏱️</span>
+                    <span class="detail-value">${i18n.t('prepTime')}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">📍</span>
+                    <span class="detail-value">${i18n.t('pickupLocation')}</span>
+                </div>
+            </div>
+            <div class="confirmation-footer">${i18n.t('enjoy')}</div>
+        `;
+        
+        // Save to localStorage
+        try {
+            localStorage.setItem(CONFIG.STORAGE_KEYS.LAST_ORDER, JSON.stringify({
+                ...orderData,
+                confirmedAt: Date.now(),
+                expiresAt: Date.now() + (24 * 60 * 60 * 1000)
+            }));
+        } catch (e) {
+            console.error('localStorage error:', e);
+        }
+    } else {
+        // Normal message with URL linking
+        textDiv.className = 'message-text';
+        
+        function linkifyText(text) {
+            const escaped = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+            
+            return escaped.replace(
+                /(https?:\/\/[^\s]+)/g,
+                '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">$1</a>'
+            );
+        }
+        
+        textDiv.innerHTML = linkifyText(text);
     }
     
     textDiv.innerHTML = linkifyText(text);
