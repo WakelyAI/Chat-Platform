@@ -34,7 +34,7 @@ const CONFIG = {
     ORDER_SHEET: true,
     MENU_PANEL: true,
     VOICE_INPUT: false,      // Future feature
-    DARK_MODE: false         // Future feature
+    DARK_MODE: false,         // Future feature
     ORDER_CONFIRMATION_CARD: false  // Visual order confirmation - starts OFF
   },
   
