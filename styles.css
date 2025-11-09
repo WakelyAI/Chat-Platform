@@ -1220,7 +1220,7 @@ button#language-toggle:hover {
     justify-content: center;
     gap: 8px;
     padding: 16px;
-    background: var(--bg-primary);
+    background: var(--primary-color);
 }
 
 .confirmation-icon {
@@ -1231,7 +1231,7 @@ button#language-toggle:hover {
 .confirmation-title {
     font-size: 16px;
     font-weight: 600;
-    color: #ffffff;
+    color: #000000;
 }
 
 /* Order number - big and centered */
