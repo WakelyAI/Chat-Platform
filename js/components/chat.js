@@ -170,9 +170,7 @@ function addMessage(sender, text, metadata = null) {
         
         textDiv.innerHTML = linkifyText(text);
     }
-    
-    textDiv.innerHTML = linkifyText(text);
-    
+        
     // Time
     const timeDiv = document.createElement('div');
     timeDiv.className = 'message-time';
