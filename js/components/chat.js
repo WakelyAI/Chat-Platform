@@ -99,6 +99,21 @@ function addMessage(sender, text, metadata = null) {
     
     // Text with URL linking (or Order Confirmation Card)
     const textDiv = document.createElement('div');
+
+    // Helper function for URL linking - MOVE IT HERE ✅
+    function linkifyText(text) {
+        const escaped = text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+        
+        return escaped.replace(
+            /(https?:\/\/[^\s]+)/g,
+            '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">$1</a>'
+        );
+    }
     
     // Check if this is an order confirmation
     if (CONFIG.FEATURES.ORDER_CONFIRMATION_CARD && 
@@ -149,20 +164,6 @@ function addMessage(sender, text, metadata = null) {
     } else {
         // Normal message with URL linking
         textDiv.className = 'message-text';
-        
-        function linkifyText(text) {
-            const escaped = text
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-            
-            return escaped.replace(
-                /(https?:\/\/[^\s]+)/g,
-                '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">$1</a>'
-            );
-        }
         
         textDiv.innerHTML = linkifyText(text);
     }
