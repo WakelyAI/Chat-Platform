@@ -35,7 +35,7 @@ const CONFIG = {
     MENU_PANEL: true,
     VOICE_INPUT: false,      // Future feature
     DARK_MODE: false,         // Future feature
-    ORDER_CONFIRMATION_CARD: false  // Visual order confirmation - starts OFF
+    ORDER_CONFIRMATION_CARD: true  // Visual order confirmation - starts OFF
   },
   
   // Localization
