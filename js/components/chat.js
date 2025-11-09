@@ -123,6 +123,9 @@ function addMessage(sender, text, metadata = null) {
         const orderData = metadata.orderData;
         textDiv.className = 'message-text order-confirmation-card';
         
+        console.log('Building card with data:', orderData);
+        console.log('i18n test:', i18n.t('orderSent'));
+
         // Build HTML using your pattern (like renderOrderItems)
         textDiv.innerHTML = `
             <div class="confirmation-header">
