@@ -34,6 +34,23 @@ let currentY = 0;
 // INITIALIZATION SECTION
 // ============================================
 async function init() {
+    // TEST MODE: Simulate order confirmation
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('test') === 'order') {
+        setTimeout(() => {
+            console.log('TEST MODE: Injecting fake order confirmation');
+            addMessage('bot', 'Test confirmation message', {
+                messageType: 'ORDER_CONFIRMATION',
+                orderData: {
+                    orderReference: 'TEST12345',
+                    customerName: 'Ahmad Test',
+                    totalAmount: 99,
+                    items: [],
+                    language: 'ar'
+                }
+            });
+        }, 2000);
+    }
     try {
         // Fetch organization details
         const response = await fetch(`${API_BASE}/public/org/${orgSlug}`);
