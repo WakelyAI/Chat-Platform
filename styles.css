@@ -1221,7 +1221,6 @@ button#language-toggle:hover {
     gap: 8px;
     padding: 16px;
     background: var(--bg-primary);
-    border-bottom: 1px solid var(--border-color);
 }
 
 .confirmation-icon {
@@ -1232,18 +1231,18 @@ button#language-toggle:hover {
 .confirmation-title {
     font-size: 16px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #ffffff;
 }
 
 /* Order number - big and centered */
 .order-number {
     font-size: 32px;
     font-weight: bold;
-    color: var(--primary-color);
+    color: #000000;
     text-align: center;
     padding: 20px 16px;
     letter-spacing: 1px;
-    background: var(--bg-secondary);
+    background: #ffffff;
 }
 
 /* Order details container */
@@ -1283,7 +1282,7 @@ button#language-toggle:hover {
 .detail-value {
     flex: 1;
     font-size: 15px;
-    color: var(--text-primary);
+    color: #000000;
     font-weight: 500;
 }
 
@@ -1292,9 +1291,9 @@ button#language-toggle:hover {
     text-align: center;
     font-size: 15px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #000000;
     padding: 16px;
-    background: var(--bg-secondary);
+    background: #ffffff;
 }
 
 /* Animation for icon */
