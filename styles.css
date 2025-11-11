@@ -941,7 +941,7 @@ button, input, textarea {
     color: white;
     border: none;
     padding: 10px 20px;
-    height: 40px;
+    height: 44px;
     border-radius: 20px;
     display: flex;
     align-items: center;
@@ -1132,9 +1132,9 @@ button#language-toggle {
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
-  padding: 8px 16px !important;
+  padding: 10px 16px !important;
   min-width: 50px !important;
-  height: 40px !important;
+  height: 44px !important;
   background: var(--brand-color) !important;
   border: 1px solid rgba(255, 255, 255, 0.3) !important;
   border-radius: 8px !important;
