@@ -64,7 +64,11 @@ async function init() {
         if (organization.brand_assets) {
             const assets = organization.brand_assets;
             
-            // Apply logo if exists
+            console.log('📦 Applying branding for:', organization.name);
+            
+            // ==========================================
+            // LOGO HANDLING
+            // ==========================================
             const logoContainer = document.getElementById('org-logo');
             const nameContainer = document.getElementById('org-name');
             
@@ -72,27 +76,59 @@ async function init() {
                 logoContainer.src = assets.logo_url;
                 logoContainer.style.display = 'block';
                 logoContainer.onerror = function() {
+                    console.warn('❌ Logo failed to load');
                     this.style.display = 'none';
                     if (nameContainer) nameContainer.style.display = 'block';
                 };
                 if (nameContainer) nameContainer.style.display = 'none';
             }
             
-            // Apply colors if exist
-            if (assets.header_color) {
+            // ==========================================
+            // COLORS - Support both new theme and legacy
+            // ==========================================
+            const theme = assets.theme || {};
+            const legacy = assets._legacy || {};
+            
+            // Helper function
+            const setColor = (cssVar, newVal, legacyVal, oldVal, fallback) => {
+                const color = newVal || legacyVal || oldVal || fallback;
+                if (color) {
+                    document.documentElement.style.setProperty(cssVar, color);
+                    console.log(`✅ ${cssVar} = ${color}`);
+                    return color;
+                }
+                return null;
+            };
+            
+            setColor(
+                '--brand-color',
+                theme.brand_color,
+                legacy.button_color,
+                assets.button_color,
+                '#ffffff'
+            );
+
+            setColor(
+                '--bg-main',
+                theme.background_color,
+                legacy.bg_color,
+                assets.bg_color,
+                '#ffffff'
+            );
+            
+            // Header & Input container color
+            const headerColor = theme.surface_color || legacy.header_color || assets.header_color;
+            if (headerColor) {
                 const style = document.createElement('style');
                 style.innerHTML = `
-                    #chat-header { background: ${assets.header_color} !important; }
-                    #chat-input-container { background: ${assets.header_color} !important; }
+                    #chat-header { background: ${headerColor} !important; }
+                    #chat-input-container { background: ${headerColor} !important; }
                 `;
                 document.head.appendChild(style);
+                console.log(`✅ Header/Input = ${headerColor}`);
             }
-            if (assets.bg_color) {
-                document.documentElement.style.setProperty('--bg-primary', assets.bg_color);
-            }
-            if (assets.button_color) {
-                document.documentElement.style.setProperty('--primary-color', assets.button_color);
-            }
+            
+            console.log('✅ Branding applied successfully');
         }
 
         // Set up event listeners
