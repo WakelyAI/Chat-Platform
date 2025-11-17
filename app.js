@@ -154,20 +154,34 @@ function showErrorPage() {
                 font-weight: 700;
                 color: #6b5d54;
             }
-            
             @media (max-width: 600px) {
-                .error-card {
-                    padding: 40px 30px;
+                #chat-container {
+                    padding: 15px;
                 }
-                
+    
+                .error-card {
+                    padding: 40px 25px;
+                    border-radius: 20px;
+                }
+    
+                .error-logo {
+                    width: 100px;
+                    height: 100px;
+                }
+    
                 .error-title {
                     font-size: 1.5em;
                 }
-                
+    
                 .error-message {
                     font-size: 1em;
                 }
+    
+                .error-button {
+                    width: 100%;
+                }
             }
+            
         </style>
         
         <div class="error-card">
