@@ -169,14 +169,16 @@ function showErrorPage() {
         
         <div class="error-card">
             <!-- Wakely Logo (SVG inline) -->
-            <svg class="error-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="38" stroke="#9db5a5" stroke-width="3"/>
-                <circle cx="50" cy="50" r="20" stroke="#9db5a5" stroke-width="2.5"/>
-                <circle cx="50" cy="50" r="4" fill="#9db5a5"/>
-                <circle cx="35" cy="50" r="2.5" fill="#9db5a5"/>
-                <circle cx="65" cy="50" r="2.5" fill="#9db5a5"/>
-                <circle cx="50" cy="35" r="2.5" fill="#9db5a5"/>
-                <circle cx="50" cy="65" r="2.5" fill="#9db5a5"/>
+            <svg class="error-logo" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg x="17.5" y="17.5" width="65" height="65" viewBox="0 0 60 60" fill="none">
+                    <circle cx="30" cy="30" r="20" stroke="#9db5a5" stroke-width="2.5"/>
+                    <circle cx="30" cy="30" r="15" stroke="#9db5a5" stroke-width="1.8"/>
+                    <circle cx="30" cy="30" r="2.8" fill="#9db5a5"/>
+                    <circle cx="22.5" cy="30" r="1.8" fill="#9db5a5"/>
+                    <circle cx="37.5" cy="30" r="1.8" fill="#9db5a5"/>
+                    <circle cx="30" cy="22.5" r="1.8" fill="#9db5a5"/>
+                    <circle cx="30" cy="37.5" r="1.8" fill="#9db5a5"/>
+                </svg> 
             </svg>
             
             <h1 class="error-title">This page doesn't exist</h1>
