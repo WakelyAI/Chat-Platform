@@ -25,7 +25,7 @@ const ApiService = {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), CONFIG.TIMEOUTS.MESSAGE_SEND);
             
-            const response = await fetch(CONFIG.API.N8N_WEBHOOK, {
+            const response = await fetch(CONFIG.API.API_GATEWAY_WEBHOOK, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

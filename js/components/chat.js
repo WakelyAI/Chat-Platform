@@ -31,7 +31,7 @@ async function handleSend() {
     try {
         const data = await ApiService.sendChatMessage(message, sessionId, organization);
         
-        console.log('Full response from n8n:', data);
+        console.log('Full response from API Gateway:', data);
         
         if (data.orderState) {
             window.currentOrderState = data.orderState;

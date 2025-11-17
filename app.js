@@ -2,7 +2,7 @@
 // CONFIGURATION & GLOBAL VARIABLES
 // ============================================
 const API_BASE = 'https://api.wakely.ai/api';
-const N8N_WEBHOOK = 'https://n8n.wakely.ai/webhook/web-chat';
+const API_GATEWAY_WEBHOOK = 'https://api.wakely.ai/webhook/web-chat';
 
 // Extract org slug from URL
 const pathParts = window.location.pathname.split('/');
