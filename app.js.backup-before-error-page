@@ -5,16 +5,8 @@ const API_BASE = 'https://api.wakely.ai/api';
 const API_GATEWAY_WEBHOOK = 'https://api.wakely.ai/webhook/web-chat';
 
 // Extract org slug from URL
-const pathParts = window.location.pathname.split('/').filter(p => p);
-const orgSlug = pathParts[0] || null;
-
-// Validate slug exists
-if (!orgSlug || orgSlug.trim() === '') {
-    document.addEventListener('DOMContentLoaded', () => {
-        showErrorPage();
-    });
-    throw new Error('No organization slug provided');
-}
+const pathParts = window.location.pathname.split('/');
+const orgSlug = pathParts[1];
 
 // Global state variables
 let organizationId = null;
@@ -37,172 +29,6 @@ window.currentCategory = 'all';
 // Touch handling for mobile
 let touchStartY = 0;
 let currentY = 0;
-
-// ============================================
-// ERROR PAGE DISPLAY
-// ============================================
-function showErrorPage() {
-    const container = document.getElementById('chat-container');
-    if (!container) return;
-    
-    // Replace entire chat container with branded error page
-    container.innerHTML = `
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Glacial+Indifference:wght@400;700&display=swap');
-            
-            #chat-container {
-                font-family: 'Glacial Indifference', Arial, sans-serif;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-height: 100vh;
-                background: linear-gradient(135deg, #9db5a5 0%, #b8d4c5 100%);
-                padding: 20px;
-            }
-            
-            .error-card {
-                background: white;
-                border-radius: 30px;
-                padding: 60px 40px;
-                max-width: 500px;
-                width: 100%;
-                text-align: center;
-                box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-                animation: fadeIn 0.5s ease-out;
-            }
-            
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            
-            .error-logo {
-                width: 80px;
-                height: 80px;
-                margin: 0 auto 30px;
-            }
-            
-            .error-title {
-                font-size: 1.8em;
-                color: #6b5d54;
-                margin-bottom: 20px;
-                font-weight: 700;
-                letter-spacing: -0.02em;
-            }
-            
-            .error-message {
-                font-size: 1.1em;
-                color: #666;
-                line-height: 1.8;
-                margin-bottom: 30px;
-            }
-            
-            .error-hint {
-                background: #f5f0e8;
-                border-left: 4px solid #9db5a5;
-                padding: 20px;
-                border-radius: 10px;
-                margin-bottom: 30px;
-                text-align: left;
-            }
-            
-            .error-hint-title {
-                color: #9db5a5;
-                font-weight: 700;
-                font-size: 0.9em;
-                text-transform: uppercase;
-                letter-spacing: 0.1em;
-                margin-bottom: 10px;
-            }
-            
-            .error-hint-text {
-                color: #666;
-                font-size: 0.95em;
-                line-height: 1.6;
-            }
-            
-            .error-button {
-                background: #9db5a5;
-                color: white;
-                border: none;
-                padding: 15px 35px;
-                border-radius: 12px;
-                font-size: 1em;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                font-family: 'Glacial Indifference', Arial, sans-serif;
-                letter-spacing: 0.02em;
-            }
-            
-            .error-button:hover {
-                background: #8aa394;
-                transform: translateY(-2px);
-                box-shadow: 0 8px 20px rgba(157, 181, 165, 0.4);
-            }
-            
-            .error-footer {
-                margin-top: 40px;
-                color: rgba(255,255,255,0.9);
-                font-size: 0.9em;
-                letter-spacing: 0.05em;
-            }
-            
-            .error-footer strong {
-                font-weight: 700;
-            }
-            
-            @media (max-width: 600px) {
-                .error-card {
-                    padding: 40px 30px;
-                }
-                
-                .error-title {
-                    font-size: 1.5em;
-                }
-                
-                .error-message {
-                    font-size: 1em;
-                }
-            }
-        </style>
-        
-        <div class="error-card">
-            <!-- Wakely Logo (SVG inline) -->
-            <svg class="error-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="35" stroke="#9db5a5" stroke-width="4"/>
-                <circle cx="50" cy="50" r="25" stroke="#9db5a5" stroke-width="3"/>
-                <circle cx="50" cy="50" r="5" fill="#9db5a5"/>
-                <circle cx="38" cy="50" r="3.5" fill="#9db5a5"/>
-                <circle cx="62" cy="50" r="3.5" fill="#9db5a5"/>
-                <circle cx="50" cy="38" r="3.5" fill="#9db5a5"/>
-                <circle cx="50" cy="62" r="3.5" fill="#9db5a5"/>
-            </svg>
-            
-            <h1 class="error-title">This page doesn't exist</h1>
-            
-            <p class="error-message">
-                The link you're trying to access is not available.<br>
-                Please check the URL and try again.
-            </p>
-            
-            <div class="error-hint">
-                <div class="error-hint-title">💡 Need Help?</div>
-                <div class="error-hint-text">
-                    Make sure you have the correct chat link from the business you're trying to reach.
-                </div>
-            </div>
-            
-            <button class="error-button" onclick="window.location.reload()">
-                Try Again
-            </button>
-        </div>
-        
-        <div class="error-footer">
-            Powered by <strong>wakely.ai</strong>
-        </div>
-    `;
-}
 
 // ============================================
 // INITIALIZATION SECTION
@@ -228,12 +54,7 @@ async function init() {
     try {
         // Fetch organization details
         const response = await fetch(`${API_BASE}/public/org/${orgSlug}`);
-        if (!response.ok) {
-            if (response.status === 404) {
-                showErrorPage();
-            }
-            throw new Error('Organization not found');
-        }
+        if (!response.ok) throw new Error('Organization not found');
         
         organization = await response.json();
         organizationId = organization.organization_id;
