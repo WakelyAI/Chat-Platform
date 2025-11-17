@@ -77,8 +77,8 @@ function showErrorPage() {
             }
             
             .error-logo {
-                width: 80px;
-                height: 80px;
+                width: 120px;
+                height: 120px;
                 margin: 0 auto 30px;
             }
             
@@ -143,13 +143,16 @@ function showErrorPage() {
             
             .error-footer {
                 margin-top: 40px;
-                color: rgba(255,255,255,0.9);
-                font-size: 0.9em;
+                padding-top: 30px;
+                border-top: 1px solid #f5f0e8;
+                color: #9db5a5;
+                font-size: 0.85em;
                 letter-spacing: 0.05em;
             }
-            
+ 
             .error-footer strong {
                 font-weight: 700;
+                color: #6b5d54;
             }
             
             @media (max-width: 600px) {
@@ -198,12 +201,12 @@ function showErrorPage() {
             <button class="error-button" onclick="window.location.reload()">
                 Try Again
             </button>
-        </div>
         
         <div class="error-footer">
             Powered by <strong>wakely.ai</strong>
         </div>
-    `;
+    </div> 
+  `;
 }
 
 // ============================================
