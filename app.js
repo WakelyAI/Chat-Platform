@@ -170,13 +170,13 @@ function showErrorPage() {
         <div class="error-card">
             <!-- Wakely Logo (SVG inline) -->
             <svg class="error-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="35" stroke="#9db5a5" stroke-width="4"/>
-                <circle cx="50" cy="50" r="25" stroke="#9db5a5" stroke-width="3"/>
-                <circle cx="50" cy="50" r="5" fill="#9db5a5"/>
-                <circle cx="38" cy="50" r="3.5" fill="#9db5a5"/>
-                <circle cx="62" cy="50" r="3.5" fill="#9db5a5"/>
-                <circle cx="50" cy="38" r="3.5" fill="#9db5a5"/>
-                <circle cx="50" cy="62" r="3.5" fill="#9db5a5"/>
+                <circle cx="50" cy="50" r="38" stroke="#9db5a5" stroke-width="3"/>
+                <circle cx="50" cy="50" r="20" stroke="#9db5a5" stroke-width="2.5"/>
+                <circle cx="50" cy="50" r="4" fill="#9db5a5"/>
+                <circle cx="35" cy="50" r="2.5" fill="#9db5a5"/>
+                <circle cx="65" cy="50" r="2.5" fill="#9db5a5"/>
+                <circle cx="50" cy="35" r="2.5" fill="#9db5a5"/>
+                <circle cx="50" cy="65" r="2.5" fill="#9db5a5"/>
             </svg>
             
             <h1 class="error-title">This page doesn't exist</h1>
