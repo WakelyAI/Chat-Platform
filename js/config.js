@@ -10,7 +10,7 @@ const CONFIG = {
   // API Endpoints
   API: {
     BASE: 'https://api.wakely.ai/api',
-    N8N_WEBHOOK: 'https://n8n.wakely.ai/webhook/web-chat',
+    N8N_WEBHOOK: 'http://207.154.195.67:3500/webhook/web-chat',
     MENU_ENDPOINT: 'https://api.wakely.ai/api/public/menu'
   },
   
