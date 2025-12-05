@@ -56,7 +56,10 @@ const translations = {
     noItems: 'No items found',
     
     // Misc
-    chatService: 'Chat Service'
+    chatService: 'Chat Service',
+
+    // Suggestions
+    tryAsking: 'Try asking:'
   },
   
   ar: {
@@ -104,7 +107,9 @@ const translations = {
     noItems: 'لا توجد عناصر',
     
     // Misc
-    chatService: 'خدمة الدردشة'
+    chatService: 'خدمة الدردشة',
+
+    tryAsking: 'جرّب تسأل:'
   }
 };
 

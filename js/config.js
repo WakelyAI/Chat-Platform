@@ -57,7 +57,9 @@ const CONFIG = {
     SESSION_ID: 'chat_session',
     LANGUAGE: 'preferred_language',
     USER_PREFERENCES: 'user_prefs',
-    LAST_ORDER: 'last_confirmed_order'
+    LAST_ORDER: 'last_confirmed_order',
+    SUGGESTIONS_DISMISSED: 'suggestions_dismissed'
+
 
   },
   
@@ -65,6 +67,33 @@ const CONFIG = {
   SESSION: {
     PREFIX: 'web',
     ID_LENGTH: 9
+  },
+  // Default Suggestion Templates (by business type)
+  SUGGESTIONS: {
+    restaurant: [
+      { icon: '🛒', text_en: "I'd like to order", text_ar: 'أبي أطلب' },
+      { icon: '📋', text_en: 'Show me the menu', text_ar: 'وريني المنيو' },
+      { icon: '⏰', text_en: 'Are you open now?', text_ar: 'مفتوحين الحين؟' },
+      { icon: '📍', text_en: 'Where are you located?', text_ar: 'وين موقعكم؟' }
+    ],
+    hotel: [
+      { icon: '🛏️', text_en: 'Book a room', text_ar: 'أبي أحجز غرفة' },
+      { icon: '💰', text_en: 'Room types & prices', text_ar: 'أنواع الغرف والأسعار' },
+      { icon: '⏰', text_en: 'Check-in/out times', text_ar: 'أوقات الدخول والخروج' },
+      { icon: '🏊', text_en: 'Hotel amenities', text_ar: 'مرافق الفندق' }
+    ],
+    spa: [
+      { icon: '📅', text_en: 'Book an appointment', text_ar: 'أبي أحجز موعد' },
+      { icon: '💆', text_en: 'Services & prices', text_ar: 'الخدمات والأسعار' },
+      { icon: '⏰', text_en: 'Working hours', text_ar: 'أوقات العمل' },
+      { icon: '📍', text_en: 'Your location', text_ar: 'موقعكم' }
+    ],
+    default: [
+      { icon: '💬', text_en: 'I have a question', text_ar: 'عندي سؤال' },
+      { icon: '⏰', text_en: 'Working hours', text_ar: 'أوقات العمل' },
+      { icon: '📍', text_en: 'Your location', text_ar: 'موقعكم' },
+      { icon: '📞', text_en: 'Contact info', text_ar: 'معلومات التواصل' }
+    ]
   }
 };
 

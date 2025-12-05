@@ -359,6 +359,9 @@ async function init() {
         
         // Show welcome message
         addMessage('bot', i18n.t('welcome', organization.name));
+
+        // Show suggestion chips
+        showSuggestions(organization);
         
     } catch (error) {
         console.error('Init error:', error);

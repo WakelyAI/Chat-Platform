@@ -1330,3 +1330,59 @@ button#language-toggle:hover {
         font-size: 18px;
     }
 }
+
+/* ============================================
+   SUGGESTIONS
+   ============================================ */
+
+.suggestions-container {
+    padding: 16px 20px;
+    margin: 8px 0;
+}
+
+.suggestions-label {
+    font-size: 13px;
+    color: var(--text-muted, #6B7280);
+    margin-bottom: 12px;
+}
+
+.suggestions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.suggestion-item {
+    font-size: 16px;
+    color: var(--text, #000000);
+    cursor: pointer;
+    padding: 8px 0;
+    transition: opacity 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.suggestion-item:active {
+    opacity: 0.6;
+}
+
+/* Fade out animation */
+.suggestions-hiding {
+    animation: suggestionsFadeOut 0.3s ease forwards;
+}
+
+@keyframes suggestionsFadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* RTL support */
+[dir="rtl"] .suggestions-container,
+html[lang="ar"] .suggestions-container {
+    text-align: right;
+}
