@@ -1336,8 +1336,9 @@ button#language-toggle:hover {
    ============================================ */
 
 .suggestions-container {
-    padding: 16px 20px;
-    margin: 8px 0;
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 1.5rem;
 }
 
 .suggestions-label {
@@ -1379,10 +1380,4 @@ button#language-toggle:hover {
         opacity: 0;
         transform: translateY(-10px);
     }
-}
-
-/* RTL support */
-[dir="rtl"] .suggestions-container,
-html[lang="ar"] .suggestions-container {
-    text-align: right;
 }

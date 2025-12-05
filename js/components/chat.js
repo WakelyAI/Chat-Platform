@@ -24,6 +24,11 @@ async function handleSend() {
     
     // Add user message
     addMessage('user', message);
+
+    // Remove suggestions if visible
+    if (typeof removeSuggestions === 'function') {
+        removeSuggestions();
+    }
     
     // Show typing indicator
     const typingId = showTyping();
